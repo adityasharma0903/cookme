@@ -1,10 +1,14 @@
 import { motion } from 'framer-motion';
 import { Bookmark, Heart } from 'lucide-react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { recipes } from '../../data/recipes';
+import { useAuth } from '../../context/AuthContext';
 import './Saved.css';
 
 const Saved = () => {
+  const { getAllCreatorRecipes } = useAuth();
+  const recipes = getAllCreatorRecipes();
+  
+  // Simulated saved recipes
   const savedRecipes = recipes.slice(0, 4); // Mock saved
   return (
     <div className="saved-page">

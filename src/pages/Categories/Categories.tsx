@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { categories } from '../../data/categories';
-import { recipes } from '../../data/recipes';
+import { useAuth } from '../../context/AuthContext';
 import './Categories.css';
 
-const Categories = () => (
+const Categories = () => {
+  const { getAllCreatorRecipes } = useAuth();
+  const recipes = getAllCreatorRecipes();
+
+  return (
   <div className="categories-page">
     <section className="cat-hero">
       <div className="container">
@@ -45,6 +49,7 @@ const Categories = () => (
       </div>
     </section>
   </div>
-);
+  );
+};
 
 export default Categories;

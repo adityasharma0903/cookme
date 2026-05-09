@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Search, ArrowRight, ChevronRight, Star, TrendingUp, Users, Utensils, Crown, Sparkles, Flame, Heart, Eye, Play } from 'lucide-react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { recipes } from '../../data/recipes';
-import { creators } from '../../data/creators';
 import { categories } from '../../data/categories';
+import { useAuth } from '../../context/AuthContext';
 import './Home.css';
 
 const partners = ['Weelicious', 'SELF', 'Food.co', 'FoodCity', 'Yummly', 'Tasty', 'BonAppétit', 'Epicurious'];
@@ -18,6 +17,11 @@ const stats = [
 ];
 
 const Home = () => {
+  const { getAllCreatorRecipes, getCreators } = useAuth();
+  const recipes = getAllCreatorRecipes();
+  const creators = getCreators();
+
+  const featuredRecipe = recipes[0] || null;
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -326,11 +330,11 @@ const Home = () => {
                       <span>Followers</span>
                     </div>
                     <div className="creator-card__stat">
-                      <strong>{creator.recipes}</strong>
+                      <strong>{(creator.recipes || 0)}</strong>
                       <span>Recipes</span>
                     </div>
                     <div className="creator-card__stat">
-                      <strong>{(creator.likes / 1000).toFixed(0)}k</strong>
+                      <strong>{(creator.likes || 0).toLocaleString()}</strong>
                       <span>Likes</span>
                     </div>
                   </div>

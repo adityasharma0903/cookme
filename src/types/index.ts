@@ -5,7 +5,7 @@ export interface Recipe {
   image: string;
   video?: string;
   category: string;
-  cuisine: string;
+  cuisine?: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   prepTime: number;
   cookTime: number;
@@ -13,13 +13,13 @@ export interface Recipe {
   calories: number;
   ingredients: Ingredient[];
   steps: Step[];
-  creator: Creator;
-  likes: number;
-  saves: number;
-  comments: number;
-  views: number;
-  isSponsored: boolean;
-  isTrending: boolean;
+  creator: Creator | any;
+  likes?: number;
+  saves?: number;
+  comments?: number;
+  views?: number;
+  isSponsored?: boolean;
+  isTrending?: boolean;
   tags: string[];
   createdAt: string;
 }
@@ -45,8 +45,8 @@ export interface Creator {
   bio: string;
   specialty: string;
   followers: number;
-  recipes: number;
-  likes: number;
+  recipes?: number;
+  likes?: number;
   isVerified: boolean;
   joinedDate: string;
   socialLinks?: {

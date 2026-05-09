@@ -19,6 +19,31 @@
 .auth-google { width: 100%; padding: 14px; background: var(--white); border: 1.5px solid rgba(0,0,0,0.08); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--charcoal); transition: all var(--transition-fast); }
 .auth-google:hover { border-color: var(--charcoal); }
 
+.auth-google-btn {
+  width: 100%;
+  padding: 13px 20px;
+  background: #ffffff;
+  border: 1.5px solid #e2e2e2;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3c3c3c;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  letter-spacing: 0.2px;
+}
+.auth-google-btn:hover {
+  background: #f8f8f8;
+  border-color: #c0c0c0;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.auth-google-btn svg { display: block; flex-shrink: 0; }
+
 .auth-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
 .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.08); }
 .auth-divider span { font-size: 12px; color: var(--gray-warm); text-transform: uppercase; }
@@ -38,7 +63,21 @@
 .auth-submit { width: 100%; padding: 14px; background: var(--charcoal); color: var(--white); font-size: 15px; font-weight: 700; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; }
 
 .auth-switch { text-align: center; font-size: 14px; color: var(--gray-warm); margin-top: 24px; }
-.auth-switch-btn { color: var(--orange); font-weight: 700; background: none; border: none; cursor: pointer; }
+.auth-switch-btn { color: #c4846c; font-weight: 700; background: none; border: none; cursor: pointer; font-size: 14px; transition: color 0.2s; }
+.auth-switch-btn:hover { color: #a06050; text-decoration: underline; }
+
+/* Bottom sign-up / sign-in link */
+.auth-bottom-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 14px;
+  color: var(--gray-warm);
+}
 
 /* Role Selector */
 .auth-role-selector { display: flex; gap: 8px; margin-bottom: 24px; }

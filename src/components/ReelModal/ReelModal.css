@@ -1,0 +1,6 @@
+.reel-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1200}
+.reel-modal{background:#111;color:#fff;border-radius:8px;max-width:900px;width:95%;overflow:hidden}
+.reel-modal__close{position:absolute;right:12px;top:12px;background:transparent;border:0;color:#fff;font-size:18px}
+.reel-modal__content{display:flex;flex-direction:column}
+.reel-modal__video{width:100%;height:auto;max-height:70vh;background:#000}
+.reel-modal__info{padding:12px}

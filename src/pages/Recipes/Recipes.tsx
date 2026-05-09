@@ -1,21 +1,34 @@
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, SlidersHorizontal, Grid3X3, List, X } from 'lucide-react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { recipes } from '../../data/recipes';
 import { categories } from '../../data/categories';
+import { useAuth } from '../../context/AuthContext';
 import './Recipes.css';
 
 const difficulties = ['All', 'Easy', 'Medium', 'Hard'];
 const sortOptions = ['Trending', 'Most Liked', 'Newest', 'Fastest'];
 
 const Recipes = () => {
-  const [search, setSearch] = useState('');
+  const { getAllCreatorRecipes } = useAuth();
+  const recipes = getAllCreatorRecipes();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('q') || '';
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [sortBy, setSortBy] = useState('Trending');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+
+  const setSearch = (value: string) => {
+    if (value) setSearchParams({ q: value });
+    else {
+      searchParams.delete('q');
+      setSearchParams(searchParams);
+    }
+  };
 
   const filtered = useMemo(() => {
     let result = [...recipes];

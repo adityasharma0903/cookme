@@ -77,8 +77,8 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
           </div>
 
           <div className="recipe-card__stats">
-            <span className="recipe-card__stat"><Heart size={14} /> {(recipe.likes / 1000).toFixed(1)}k</span>
-            <span className="recipe-card__stat"><Eye size={14} /> {(recipe.views / 1000).toFixed(0)}k</span>
+            <span className="recipe-card__stat"><Heart size={14} /> {(recipe.likes || 0).toLocaleString()}</span>
+            <span className="recipe-card__stat"><Eye size={14} /> {(recipe.views || 0).toLocaleString()}</span>
             <span className="recipe-card__stat"><MessageCircle size={14} /> {recipe.comments}</span>
           </div>
         </div>

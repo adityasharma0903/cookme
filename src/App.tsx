@@ -12,9 +12,12 @@ import CreatorProfile from './pages/CreatorProfile/CreatorProfile';
 import Categories from './pages/Categories/Categories';
 import Trending from './pages/Trending/Trending';
 import Login from './pages/Auth/Login';
+import GoogleSuccess from './pages/Auth/GoogleSuccess';
+import EditProfile from './pages/Profile/EditProfile';
 import Saved from './pages/Saved/Saved';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import CreatorDashboard from './pages/CreatorDashboard/CreatorDashboard';
+import UserDashboard from './pages/UserDashboard/UserDashboard';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -31,11 +34,15 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 }
 
 // Protected route for creator
-function CreatorRoute({ children }: { children: React.ReactNode }) {
+// Dashboard router that serves different dashboards based on role
+function DashboardRoute() {
   const { user, isLoading } = useAuth();
   if (isLoading) return null;
-  if (!user || user.role !== 'creator') return <Navigate to="/login" replace />;
-  return <>{children}</>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role === 'creator') return <CreatorDashboard />;
+  if (user.role === 'user') return <UserDashboard />;
+  if (user.role === 'admin') return <Navigate to="/admin" replace />;
+  return <Navigate to="/login" replace />;
 }
 
 function AnimatedRoutes() {
@@ -59,9 +66,11 @@ function AnimatedRoutes() {
           <Route path="/trending" element={<Trending />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Login />} />
+          <Route path="/auth/google/success" element={<GoogleSuccess />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-          <Route path="/dashboard" element={<CreatorRoute><CreatorDashboard /></CreatorRoute>} />
+          <Route path="/dashboard" element={<DashboardRoute />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

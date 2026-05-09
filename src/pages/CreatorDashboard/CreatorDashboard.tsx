@@ -3,24 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
-  ChefHat, LayoutDashboard, BookOpen, Film, User, Settings, LogOut,
+  ChefHat, LayoutDashboard, BookOpen, User, Settings, LogOut,
   Plus, Edit3, Trash2, Eye, Heart, MessageCircle, TrendingUp, Bookmark,
-  X, Check, AlertCircle, Clock, Users, Flame, Lock, BarChart3, Upload
+  X, Check, AlertCircle, Clock, Users, Flame, Lock, BarChart3
 } from 'lucide-react';
 import './CreatorDashboard.css';
 
-type Tab = 'overview' | 'recipes' | 'reels' | 'profile' | 'settings';
+type Tab = 'overview' | 'recipes' | 'profile' | 'settings';
 
 const CreatorDashboard = () => {
-  const { user, logout, getMyRecipes, getMyReels, addRecipe, updateRecipe, deleteRecipe, addReel, deleteReel, updateProfile, changePassword, getCreatorById } = useAuth();
+  const { user, logout, getMyRecipes, addRecipe, updateRecipe, deleteRecipe, updateProfile, changePassword, getCreatorById } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [showRecipeForm, setShowRecipeForm] = useState(false);
-  const [showReelForm, setShowReelForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<any>(null);
 
   const myRecipes = getMyRecipes();
-  const myReels = getMyReels();
   const creatorData = user ? getCreatorById(user.id) : null;
   const creatorFollowers = Number(creatorData?.followers || 0);
 
@@ -34,7 +32,6 @@ const CreatorDashboard = () => {
   const tabs: { key: Tab; label: string; icon: React.ReactNode }[] = [
     { key: 'overview', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
     { key: 'recipes', label: 'My Recipes', icon: <BookOpen size={18} /> },
-    { key: 'reels', label: 'Reels', icon: <Film size={18} /> },
     { key: 'profile', label: 'Profile', icon: <User size={18} /> },
     { key: 'settings', label: 'Settings', icon: <Settings size={18} /> },
   ];
@@ -74,7 +71,6 @@ const CreatorDashboard = () => {
             <h1 className="admin-header__title">
               {activeTab === 'overview' && `Welcome, ${user?.name?.split(' ')[0]}! 👋`}
               {activeTab === 'recipes' && 'My Recipes'}
-              {activeTab === 'reels' && 'Recipe Reels'}
               {activeTab === 'profile' && 'My Profile'}
               {activeTab === 'settings' && 'Account Settings'}
             </h1>
@@ -83,11 +79,6 @@ const CreatorDashboard = () => {
           {activeTab === 'recipes' && (
             <motion.button className="admin-create-btn" onClick={() => { setEditingRecipe(null); setShowRecipeForm(true); }} whileHover={{ scale: 1.05 }}>
               <Plus size={18} /> Create Recipe
-            </motion.button>
-          )}
-          {activeTab === 'reels' && (
-            <motion.button className="admin-create-btn" onClick={() => setShowReelForm(true)} whileHover={{ scale: 1.05 }}>
-              <Upload size={18} /> Post Reel
             </motion.button>
           )}
         </div>
@@ -197,34 +188,6 @@ const CreatorDashboard = () => {
           </div>
         )}
 
-        {/* REELS */}
-        {activeTab === 'reels' && (
-          <div className="creator-reels">
-            {myReels.length === 0 ? (
-              <div className="creator-empty"><span>🎬</span><h3>No reels yet</h3><p>Post your first recipe reel!</p></div>
-            ) : (
-              <div className="creator-reels-grid">
-                {myReels.map((reel, i) => (
-                  <motion.div key={reel.id} className="creator-reel-card" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.08 }}>
-                    <div className="creator-reel-card__thumb">
-                      <img src={reel.thumbnail} alt={reel.title} />
-                      <div className="creator-reel-card__play">▶</div>
-                    </div>
-                    <div className="creator-reel-card__info">
-                      <h4>{reel.title}</h4>
-                      <div className="creator-reel-card__stats">
-                        <span><Heart size={12} /> {reel.likes}</span>
-                        <span><Eye size={12} /> {reel.views}</span>
-                      </div>
-                    </div>
-                    <button className="creator-reel-card__delete" onClick={() => deleteReel(reel.id)}><Trash2 size={14} /></button>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* PROFILE */}
         {activeTab === 'profile' && creatorData && <ProfileTab creator={creatorData} onUpdate={updateProfile} />}
 
@@ -234,7 +197,7 @@ const CreatorDashboard = () => {
 
       <AnimatePresence>
         {showRecipeForm && <RecipeFormModal editing={editingRecipe} creatorId={user!.id} onClose={() => { setShowRecipeForm(false); setEditingRecipe(null); }} onAdd={addRecipe} onUpdate={updateRecipe} />}
-        {showReelForm && <ReelFormModal creatorId={user!.id} onClose={() => setShowReelForm(false)} onAdd={addReel} />}
+
       </AnimatePresence>
     </div>
   );
@@ -422,35 +385,6 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
           <motion.button className="modal__btn modal__btn--submit" onClick={handleSubmit} whileHover={{ scale: 1.02 }}>
             {editing ? <><Check size={16} /> Update Recipe</> : <><Plus size={16} /> Create Recipe</>}
           </motion.button>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// Reel Form Modal
-const ReelFormModal = ({ creatorId, onClose, onAdd }: any) => {
-  const [form, setForm] = useState({ creatorId, title: '', thumbnail: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=600&fit=crop', videoUrl: '', description: '' });
-
-  const handleSubmit = () => {
-    if (!form.title) return;
-    onAdd(form);
-    onClose();
-  };
-
-  return (
-    <motion.div className="modal-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
-      <motion.div className="modal" initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9 }} onClick={e => e.stopPropagation()}>
-        <div className="modal__header"><h2>🎬 Post Recipe Reel</h2><button onClick={onClose}><X size={20} /></button></div>
-        <div className="modal__body">
-          <div className="modal__field"><label>Reel Title</label><input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g., Quick Pasta in 60 seconds" /></div>
-          <div className="modal__field"><label>Thumbnail URL</label><input value={form.thumbnail} onChange={e => setForm({ ...form, thumbnail: e.target.value })} /></div>
-          <div className="modal__field"><label>Video URL</label><input value={form.videoUrl} onChange={e => setForm({ ...form, videoUrl: e.target.value })} placeholder="YouTube/Instagram link" /></div>
-          <div className="modal__field"><label>Description</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} /></div>
-        </div>
-        <div className="modal__footer">
-          <button className="modal__btn modal__btn--cancel" onClick={onClose}>Cancel</button>
-          <motion.button className="modal__btn modal__btn--submit" onClick={handleSubmit} whileHover={{ scale: 1.02 }}><Film size={16} /> Post Reel</motion.button>
         </div>
       </motion.div>
     </motion.div>

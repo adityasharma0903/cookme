@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion';
 import { Flame, TrendingUp } from 'lucide-react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { recipes } from '../../data/recipes';
+import { useAuth } from '../../context/AuthContext';
 import './Trending.css';
 
 const Trending = () => {
-  const trending = [...recipes].sort((a, b) => b.views - a.views);
+  const { getAllCreatorRecipes } = useAuth();
+  const recipes = getAllCreatorRecipes();
+  
+  const trending = [...recipes].sort((a, b) => b.views - a.views).slice(0, 8);
   return (
     <div className="trending-page">
       <section className="trending-hero">

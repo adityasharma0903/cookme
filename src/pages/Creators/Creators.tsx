@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BadgeCheck, Users, BookOpen, Heart, TrendingUp, Crown } from 'lucide-react';
-import { creators } from '../../data/creators';
-import { recipes } from '../../data/recipes';
+import { useAuth } from '../../context/AuthContext';
 import './Creators.css';
 
 const Creators = () => {
+  const { getCreators, getAllCreatorRecipes } = useAuth();
+  const creators = getCreators();
+  const recipes = getAllCreatorRecipes();
+  
   const sorted = [...creators].sort((a, b) => b.followers - a.followers);
   return (
     <div className="creators-page">
@@ -30,8 +33,8 @@ const Creators = () => {
                   <p className="podium-card__specialty">{creator.specialty}</p>
                   <div className="podium-card__stats">
                     <span><Users size={13} /> {(creator.followers / 1000).toFixed(1)}k</span>
-                    <span><BookOpen size={13} /> {creator.recipes}</span>
-                    <span><Heart size={13} /> {(creator.likes / 1000).toFixed(0)}k</span>
+                    <span><BookOpen size={13} /> {(creator.recipes || 0)}</span>
+                    <span><Heart size={14} /> {(creator.likes || 0).toLocaleString()}</span>
                   </div>
                 </Link>
               </motion.div>
@@ -59,8 +62,8 @@ const Creators = () => {
                   </div>
 
                   <div className="creator-card-small__stats">
-                    <span><Heart size={12} /> {(creator.likes / 1000).toFixed(0)}k</span>
-                    <span><BookOpen size={12} /> {creator.recipes}</span>
+                    <span><Heart size={12} /> {(creator.likes || 0).toLocaleString()}</span>
+                    <span><BookOpen size={12} /> {(creator.recipes || 0)}</span>
                   </div>
 
                   {creatorRecipes.length > 0 && (

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Shield, Users, BookOpen, TrendingUp, Plus, Edit3, Trash2, Eye, EyeOff,
   LogOut, Search, ChefHat, BarChart3, UserPlus, X, Check, AlertCircle,
-  Mail, Lock, User, Sparkles, Activity, Heart
+  Mail, Lock, User, Sparkles, Activity, Heart, Image as ImageIcon, XCircle, CheckCircle
 } from 'lucide-react';
 import './AdminDashboard.css';
 
@@ -22,9 +22,9 @@ const AdminDashboard = () => {
   const creators = getCreators();
   const allRecipes = getAllCreatorRecipes();
 
-  const totalFollowers = creators.reduce((s, c) => s + c.followers, 0);
-  const totalLikes = creators.reduce((s, c) => s + c.totalLikes, 0);
-  const totalViews = creators.reduce((s, c) => s + c.totalViews, 0);
+  const totalFollowers = creators.reduce((s, c) => s + (c.followers || 0), 0);
+  const totalLikes = creators.reduce((s, c) => s + (c.totalLikes || 0), 0);
+  const totalViews = creators.reduce((s, c) => s + (c.totalViews || 0), 0);
 
   const filteredCreators = creators.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -125,7 +125,10 @@ const AdminDashboard = () => {
                         <td><div className="admin-table__user"><img src={c.avatar} alt={c.name} /><span>{c.name}</span></div></td>
                         <td>{c.email}</td>
                         <td>{c.specialty}</td>
-                        <td>{allRecipes.filter(r => r.creatorId === c.id).length}</td>
+                        <td>{allRecipes.filter(r => {
+                          const cid = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+                          return cid === c.id;
+                        }).length}</td>
                         <td><span className={`admin-status admin-status--${c.status}`}>{c.status}</span></td>
                       </tr>
                     ))}
@@ -156,17 +159,19 @@ const AdminDashboard = () => {
                   </div>
                   <div className="admin-creator-card__meta">
                     <span>{creator.specialty}</span>
-                    <span>Password: {creator.password}</span>
                   </div>
                   <div className="admin-creator-card__stats">
-                    <div><strong>{creator.followers}</strong><span>Followers</span></div>
-                    <div><strong>{allRecipes.filter(r => r.creatorId === creator.id).length}</strong><span>Recipes</span></div>
-                    <div><strong>{(creator.totalLikes / 1000).toFixed(1)}k</strong><span>Likes</span></div>
+                    <div><strong>{allRecipes.filter(r => {
+                          const cid = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+                          return cid === creator.id;
+                        }).length}</strong><span>Recipes</span></div>
+                    <div><strong>{(creator.followers || 0).toLocaleString()}</strong><span>Followers</span></div>
+                    <div><strong>{((creator.totalLikes || 0) / 1000).toFixed(1)}k</strong><span>Likes</span></div>
                   </div>
                   <div className="admin-creator-card__actions">
                     <button className="admin-action-btn admin-action-btn--edit" onClick={() => setEditingCreator(creator)}><Edit3 size={14} /> Edit</button>
-                    <button className="admin-action-btn admin-action-btn--toggle" onClick={() => updateCreator(creator.id, { status: creator.status === 'active' ? 'suspended' : 'active' })}>
-                      {creator.status === 'active' ? <><EyeOff size={14} /> Suspend</> : <><Eye size={14} /> Activate</>}
+                    <button className="admin-action-btn admin-action-btn--toggle" onClick={() => updateCreator(creator.id, { status: creator.status === 'Active' ? 'Suspended' : 'Active' })}>
+                      {creator.status === 'Active' ? <><XCircle size={14} /> Suspend</> : <><CheckCircle size={14} /> Activate</>}
                     </button>
                     <button className="admin-action-btn admin-action-btn--delete" onClick={() => { if (window.confirm('Delete this creator?')) deleteCreator(creator.id); }}><Trash2 size={14} /></button>
                   </div>
@@ -186,7 +191,8 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                   {allRecipes.map(r => {
-                    const creator = creators.find(c => c.id === r.creatorId);
+                    const rCreatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+                  const creator = creators.find(c => c.id === rCreatorId);
                     return (
                       <tr key={r.id}>
                         <td><div className="admin-table__recipe"><img src={r.image} alt={r.title} /><span>{r.title}</span></div></td>
@@ -227,13 +233,16 @@ const AdminDashboard = () => {
                 <table className="admin-table">
                   <thead><tr><th>Rank</th><th>Creator</th><th>Followers</th><th>Total Likes</th><th>Recipes</th></tr></thead>
                   <tbody>
-                    {[...creators].sort((a, b) => b.totalLikes - a.totalLikes).map((c, i) => (
+                    {[...creators].sort((a, b) => (b.totalLikes || 0) - (a.totalLikes || 0)).map((c, i) => (
                       <tr key={c.id}>
                         <td><span className="admin-rank">#{i + 1}</span></td>
                         <td><div className="admin-table__user"><img src={c.avatar} alt={c.name} /><span>{c.name}</span></div></td>
-                        <td>{c.followers.toLocaleString()}</td>
-                        <td>{c.totalLikes.toLocaleString()}</td>
-                        <td>{allRecipes.filter(r => r.creatorId === c.id).length}</td>
+                        <td>{(c.followers || 0).toLocaleString()}</td>
+                        <td>{(c.totalLikes || 0).toLocaleString()}</td>
+                        <td>{allRecipes.filter(r => {
+                          const cid = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+                          return cid === c.id;
+                        }).length}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -254,14 +263,18 @@ const AdminDashboard = () => {
 };
 
 const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCreate: any }) => {
-  const [form, setForm] = useState({ name: '', email: '', password: '', bio: '', specialty: 'Indian Cuisine', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face' });
+  const [form, setForm] = useState({ username: '', name: '', email: '', password: '', bio: '', specialty: 'Indian Cuisine', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face' });
   const [error, setError] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.email || !form.password) { setError('Name, email, and password are required.'); return; }
     if (form.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
-    onCreate({ ...form, status: 'active' as const, isVerified: false, socialLinks: {} });
-    onClose();
+    try {
+      await onCreate({ ...form, status: 'active' as const, isVerified: false, socialLinks: {} });
+      onClose();
+    } catch (err: any) {
+      setError(err?.response?.data?.message || 'Failed to create creator');
+    }
   };
 
   return (
@@ -274,8 +287,9 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
         {error && <div className="auth-error"><AlertCircle size={14} /> {error}</div>}
         <div className="modal__body">
           <div className="modal__field"><label><User size={14} /> Full Name</label><input value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g., Chef Aditya" /></div>
+          <div className="modal__field"><label>Username</label><input value={form.username} onChange={e => setForm({...form, username: e.target.value})} placeholder="unique username (no spaces)" /></div>
           <div className="modal__field"><label><Mail size={14} /> Email</label><input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="creator@cookme.com" /></div>
-          <div className="modal__field"><label><Lock size={14} /> Password</label><input value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Min 6 characters" /></div>
+          <div className="modal__field"><label><Lock size={14} /> Password</label><input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Min 6 characters" /></div>
           <div className="modal__field"><label><Sparkles size={14} /> Specialty</label>
             <select value={form.specialty} onChange={e => setForm({...form, specialty: e.target.value})}>
               {['Indian Cuisine', 'Italian & Mediterranean', 'Japanese Cuisine', 'Mexican & Latin', 'Vegan & Plant-Based', 'Desserts & Baking', 'Seafood', 'BBQ & Grill', 'Chinese Cuisine', 'Thai Cuisine', 'French Cuisine', 'Other'].map(s => <option key={s} value={s}>{s}</option>)}
