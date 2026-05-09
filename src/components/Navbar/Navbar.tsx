@@ -188,9 +188,27 @@ const Navbar = () => {
                 ))}
               </div>
               <div className="navbar__mobile-footer">
-                <Link to="/login" className="navbar__mobile-cta">
-                  Sign In / Register
-                </Link>
+                {user ? (
+                  <>
+                    <div className="navbar__mobile-user">
+                      {user.avatar && <img src={user.avatar} alt="" className="navbar__mobile-avatar" />}
+                      <div>
+                        <div className="navbar__mobile-username">{user.name}</div>
+                        <div className="navbar__mobile-role">{user.role}</div>
+                      </div>
+                    </div>
+                    <Link
+                      to={user.role === 'admin' ? '/admin' : '/dashboard'}
+                      className="navbar__mobile-cta"
+                    >
+                      Dashboard
+                    </Link>
+                  </>
+                ) : (
+                  <Link to="/login" className="navbar__mobile-cta">
+                    Sign In / Register
+                  </Link>
+                )}
               </div>
             </motion.div>
           </>

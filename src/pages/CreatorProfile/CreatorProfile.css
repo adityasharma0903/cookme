@@ -237,16 +237,34 @@
 .cp-ig-grid-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(224, 122, 127, 0.4);
+  background: rgba(100, 40, 50, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s;
+  /* On devices with hover (desktop), show on hover */
 }
 
-.cp-ig-grid-item:hover .cp-ig-grid-overlay {
-  opacity: 1;
+/* Desktop: show on hover */
+@media (hover: hover) {
+  .cp-ig-grid-item:hover .cp-ig-grid-overlay {
+    opacity: 1;
+  }
+}
+
+/* Mobile/touch: always show a subtle bottom bar with stats instead */
+@media (hover: none) {
+  .cp-ig-grid-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(80,30,40,0.75) 0%, transparent 60%);
+    align-items: flex-end;
+    padding: 10px;
+  }
+  .cp-ig-grid-stats {
+    gap: 16px;
+    font-size: 12px;
+  }
 }
 
 .cp-ig-grid-stats {

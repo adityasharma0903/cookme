@@ -3,35 +3,42 @@
   margin: 40px auto;
   padding: 20px;
 }
+
 .user-dashboard__header {
   display: flex;
   gap: 16px;
   align-items: center;
   margin-bottom: 24px;
 }
+
 .user-dashboard__avatar {
   width: 88px;
   height: 88px;
   border-radius: 999px;
   object-fit: cover;
 }
+
 .user-dashboard__name {
   margin: 0;
   font-size: 1.5rem;
 }
+
 .user-dashboard__email {
   margin: 4px 0 0 0;
   color: #666;
 }
+
 .user-dashboard__section {
   margin-top: 28px;
 }
+
 .user-dashboard__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
   margin-top: 12px;
 }
+
 .user-dashboard__empty {
   color: #666;
 }
