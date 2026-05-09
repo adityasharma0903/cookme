@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Color Palette - Pink Blossom */
+  --lime: #E97A8F;
+  --lime-light: #F19BAA;
+  --lime-dark: #C85A70;
+  --lime-glow: rgba(233, 122, 143, 0.28);
+  
+  --orange: #D95C78;
+  --orange-light: #E57D97;
+  --orange-dark: #B74863;
+  
+  --green-deep: #8C4C5C;
+  --green-mid: #A85C70;
+  --green-light: #C97185;
+  
+  --cream: #F9E3E7;
+  --cream-dark: #F0D0D7;
+  
+  --charcoal: #7C3D4B;
+  --charcoal-light: #91515E;
+  --charcoal-mid: #A86975;
+  --gray-warm: #B68490;
+  --gray-light: #DBB4BE;
+  
+  --white: #FFFFFF;
+  --black: #7C3D4B;
+  
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #F9E3E7 0%, #F0C8D1 40%, #E97A8F 100%);
+  --gradient-lime: linear-gradient(135deg, #E97A8F 0%, #C85A70 100%);
+  --gradient-warm: linear-gradient(135deg, #D95C78 0%, #E57D97 100%);
+  --gradient-dark: linear-gradient(135deg, #7C3D4B 0%, #91515E 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.1) 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(124, 61, 75, 0.08);
+  --shadow-md: 0 4px 20px rgba(124, 61, 75, 0.1);
+  --shadow-lg: 0 8px 40px rgba(124, 61, 75, 0.14);
+  --shadow-xl: 0 20px 60px rgba(124, 61, 75, 0.18);
+  --shadow-lime: 0 8px 30px rgba(233, 122, 143, 0.28);
+  --shadow-orange: 0 8px 30px rgba(217, 92, 120, 0.28);
+  
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --space-5xl: 128px;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-normal: 0.3s var(--ease-out);
+  --transition-slow: 0.5s var(--ease-out);
+  --transition-spring: 0.6s var(--ease-spring);
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+html, body, #root {
+  min-height: 100%;
+  background: var(--cream);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-light);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-warm);
+}
+
+/* Selection */
+::selection {
+  background: var(--lime);
+  color: var(--charcoal);
+}
+
+/* Utility Classes */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.section-padding {
+  padding: var(--space-5xl) 0;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(197, 232, 48, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(197, 232, 48, 0.6); }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blob {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 40% 70% 60%; }
+  75% { border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Page Transition */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s var(--ease-out);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :root {
+    --space-5xl: 80px;
+    --space-4xl: 64px;
+    --space-3xl: 48px;
+  }
+  
+  .container {
+    padding: 0 var(--space-md);
+  }
+}

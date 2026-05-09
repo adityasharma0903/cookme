@@ -1,0 +1,7 @@
+.saved-page { padding-top: 80px; }
+.saved-hero { background: linear-gradient(135deg, #F9E3E7, #F2C7D1); padding: 60px 0; text-align: center; }
+.saved-hero__title { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+.saved-hero__desc { font-size: 16px; color: var(--gray-warm); }
+.saved-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+.saved-tab { display: flex; align-items: center; gap: 6px; padding: 10px 24px; border-radius: var(--radius-full); font-size: 14px; font-weight: 600; background: var(--white); color: var(--charcoal-mid); border: 1.5px solid rgba(0,0,0,0.08); transition: all var(--transition-fast); }
+.saved-tab.active { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
