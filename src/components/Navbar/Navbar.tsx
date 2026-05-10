@@ -50,7 +50,7 @@ const Navbar = () => {
               <ChefHat size={28} />
             </motion.div>
             <span className="navbar__logo-text">
-              COOK<span className="navbar__logo-dot">.</span>ME
+              Zaika<span className="navbar__logo-dot"> Recipes</span>
             </span>
           </Link>
 
@@ -164,7 +164,7 @@ const Navbar = () => {
             >
               <div className="navbar__mobile-header">
                 <span className="navbar__logo-text">
-                  COOK<span className="navbar__logo-dot">.</span>ME
+                  Zaika<span className="navbar__logo-dot"></span>Recipes
                 </span>
                 <button onClick={() => setIsMobileOpen(false)}>
                   <X size={24} />

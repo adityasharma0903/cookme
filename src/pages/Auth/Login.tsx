@@ -159,7 +159,7 @@ const Login = () => {
           ) : (
             <>
               <h1 className="auth-title">Create Account</h1>
-              <p className="auth-subtitle">Join COOK.ME and start exploring</p>
+              <p className="auth-subtitle">Join Zaika Recipes and start exploring</p>
 
               <AnimatePresence>
                 {error && (

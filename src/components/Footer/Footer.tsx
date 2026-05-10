@@ -16,10 +16,6 @@ const Footer = () => {
         <div className="container">
           <div className="footer__grid">
             <div className="footer__brand">
-              <div className="footer__logo">
-                <div className="footer__logo-icon"><ChefHat size={24} /></div>
-                <span className="footer__logo-text">COOK<span className="footer__dot">.</span>ME</span>
-              </div>
               <p className="footer__desc">
                 A sponsor-based recipe sharing platform where creators publish engaging recipes,
                 grow their audience, and compete through trending content.
@@ -67,7 +63,7 @@ const Footer = () => {
           </div>
 
           <div className="footer__bottom">
-            <p>© 2026 COOK.ME — All rights reserved.</p>
+            <p>© 2026 Zaika Recipes — All rights reserved.</p>
             <div className="footer__bottom-links">
               <Link to="/privacy">Privacy Policy</Link>
               <Link to="/terms">Terms of Service</Link>

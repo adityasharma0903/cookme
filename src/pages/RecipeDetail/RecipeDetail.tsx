@@ -90,7 +90,7 @@ const RecipeDetail = () => {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>${recipe.title} - COOK.ME</title>
+        <title>${recipe.title} - Zaika Recipes</title>
         <style>
           body { font-family: 'Georgia', serif; color: #2c1810; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
           h1 { font-size: 2rem; margin-bottom: 4px; color: #2c1810; }

@@ -32,6 +32,7 @@
   align-items: center;
   gap: 10px;
   z-index: 10;
+  white-space: nowrap;
 }
 
 .navbar__logo-icon {
