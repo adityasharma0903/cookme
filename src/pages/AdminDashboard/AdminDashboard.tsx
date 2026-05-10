@@ -58,7 +58,7 @@ const AdminDashboard = () => {
               className={`admin-nav-btn ${activeTab === tab.key ? 'active' : ''}`}
               onClick={() => setActiveTab(tab.key)}
             >
-              {tab.icon} {tab.label}
+              {tab.icon} <span>{tab.label}</span>
             </button>
           ))}
         </nav>
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
             </div>
           </div>
           <button className="admin-logout-btn" onClick={handleLogout}>
-            <LogOut size={16} /> Logout
+            <LogOut size={16} /> <span>Logout</span>
           </button>
         </div>
       </aside>

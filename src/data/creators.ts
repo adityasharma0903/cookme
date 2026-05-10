@@ -12,7 +12,7 @@ export const creators: Creator[] = [
     likes: 234500,
     isVerified: true,
     joinedDate: '2024-01-15',
-    socialLinks: { instagram: '#', youtube: '#' }
+    socialLinks: { instagram: '#', youtube: '#', facebook: '#', twitter: '#', threads: '#', mail: '#' }
   },
   {
     id: 'c2',

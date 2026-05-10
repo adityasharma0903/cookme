@@ -48,10 +48,10 @@ const UserDashboard: React.FC = () => {
         </div>
         <div className="creator-sidebar__role">User Dashboard</div>
         <nav className="admin-sidebar__nav">
-          <button className={`admin-nav-btn ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}><LayoutDashboard size={18} /> Overview</button>
-          <button className={`admin-nav-btn ${activeTab === 'saved' ? 'active' : ''}`} onClick={() => setActiveTab('saved')}><Bookmark size={18} /> Saved</button>
-          <button className={`admin-nav-btn ${activeTab === 'liked' ? 'active' : ''}`} onClick={() => setActiveTab('liked')}><Heart size={18} /> Liked</button>
-          <button className={`admin-nav-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}><UserIcon size={18} /> Profile</button>
+          <button className={`admin-nav-btn ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}><LayoutDashboard size={18} /> <span>Overview</span></button>
+          <button className={`admin-nav-btn ${activeTab === 'saved' ? 'active' : ''}`} onClick={() => setActiveTab('saved')}><Bookmark size={18} /> <span>Saved</span></button>
+          <button className={`admin-nav-btn ${activeTab === 'liked' ? 'active' : ''}`} onClick={() => setActiveTab('liked')}><Heart size={18} /> <span>Liked</span></button>
+          <button className={`admin-nav-btn ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}><UserIcon size={18} /> <span>Profile</span></button>
         </nav>
         <div className="admin-sidebar__bottom">
           <div className="admin-sidebar__user">
@@ -61,7 +61,7 @@ const UserDashboard: React.FC = () => {
               <p className="admin-sidebar__email">{user?.email}</p>
             </div>
           </div>
-          <button className="admin-logout-btn" onClick={handleLogout}><LogOut size={16} /> Logout</button>
+          <button className="admin-logout-btn" onClick={handleLogout}><LogOut size={16} /> <span>Logout</span></button>
         </div>
       </aside>
 
@@ -127,7 +127,7 @@ const UserDashboard: React.FC = () => {
           <div className="creator-profile-tab">
             <div className="creator-profile-tab__header">
               <img src={user?.avatar} alt="" className="creator-profile-tab__avatar" />
-              <div>
+              <div className="creator-profile-tab__header-info">
                 <h2>{user?.name}</h2>
                 <p>{user?.email}</p>
               </div>
@@ -138,7 +138,7 @@ const UserDashboard: React.FC = () => {
 
             <div style={{ marginTop: 16 }}>
               <motion.button
-                className="admin-logout-btn"
+                className="admin-create-btn"
                 onClick={handleEditProfile}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

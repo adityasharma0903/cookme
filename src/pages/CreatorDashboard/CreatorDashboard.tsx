@@ -49,7 +49,7 @@ const CreatorDashboard = () => {
         <nav className="admin-sidebar__nav">
           {tabs.map(tab => (
             <button key={tab.key} className={`admin-nav-btn ${activeTab === tab.key ? 'active' : ''}`} onClick={() => setActiveTab(tab.key)}>
-              {tab.icon} {tab.label}
+              {tab.icon} <span>{tab.label}</span>
             </button>
           ))}
         </nav>
@@ -61,7 +61,7 @@ const CreatorDashboard = () => {
               <p className="admin-sidebar__email">{user?.email}</p>
             </div>
           </div>
-          <button className="admin-logout-btn" onClick={handleLogout}><LogOut size={16} /> Logout</button>
+          <button className="admin-logout-btn" onClick={handleLogout}><LogOut size={16} /> <span>Logout</span></button>
         </div>
       </aside>
 
@@ -218,7 +218,7 @@ const ProfileTab = ({ creator, onUpdate }: any) => {
     <div className="creator-profile-tab">
       <div className="creator-profile-tab__header">
         <img src={form.avatar} alt="" className="creator-profile-tab__avatar" />
-        <div>
+        <div className="creator-profile-tab__header-info">
           <h2>{creator.name}</h2>
           <p>{creator.email}</p>
           <div className="creator-profile-tab__badges">

@@ -1,5 +1,5 @@
 .creator-dash {
-  display: flex;
+  display: block;
   min-height: 100vh;
   background: #F5F3EE;
 }
@@ -368,7 +368,6 @@
   color: var(--gray-warm);
 }
 
-/* Profile Tab */
 .creator-profile-tab__header {
   display: flex;
   align-items: center;
@@ -380,23 +379,35 @@
   box-shadow: var(--shadow-sm);
 }
 
+.creator-profile-tab__header-info {
+  flex: 1;
+  min-width: 0;
+}
+
 .creator-profile-tab__avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #E8979A;
+  flex-shrink: 0;
 }
 
 .creator-profile-tab__header h2 {
   font-family: var(--font-display);
   font-size: 24px;
   font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .creator-profile-tab__header p {
   font-size: 13px;
   color: var(--gray-warm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .creator-profile-tab__badges {
@@ -615,7 +626,9 @@
   .creator-sidebar .admin-sidebar__logo span,
   .creator-sidebar__role,
   .admin-sidebar__name,
-  .admin-sidebar__email {
+  .admin-sidebar__email,
+  .admin-nav-btn span,
+  .admin-logout-btn span {
     display: none;
   }
 

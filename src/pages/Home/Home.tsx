@@ -9,12 +9,12 @@ import './Home.css';
 
 const partners = ['Weelicious', 'SELF', 'Food.co', 'FoodCity', 'Yummly', 'Tasty', 'BonAppétit', 'Epicurious'];
 
-const stats = [
-  { icon: <Utensils size={24} />, value: '50K+', label: 'Recipes' },
-  { icon: <Users size={24} />, value: '12K+', label: 'Creators' },
-  { icon: <Heart size={24} />, value: '2M+', label: 'Likes' },
-  { icon: <Eye size={24} />, value: '15M+', label: 'Monthly Views' },
-];
+// const stats = [
+//   { icon: <Utensils size={24} />, value: '50K+', label: 'Recipes' },
+//   { icon: <Users size={24} />, value: '12K+', label: 'Creators' },
+//   { icon: <Heart size={24} />, value: '2M+', label: 'Likes' },
+//   { icon: <Eye size={24} />, value: '15M+', label: 'Monthly Views' },
+// ];
 
 const Home = () => {
   const { getAllCreatorRecipes, getCreators } = useAuth();
@@ -58,12 +58,12 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              GOOD <span className="hero__emoji">😋</span> TASTE.
+              YOUR FREE DIGITAL
               <br />
-              GOOD <span className="hero__emoji">🤗</span> SENSE.
+              <span className="hero__pill">RECIPE BOX</span>
             </motion.h1>
 
-            <motion.p
+            {/* <motion.p
               className="hero__desc"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -72,9 +72,9 @@ const Home = () => {
               Browse over 5 million recipes and foods that make your health better and
               healthier. Love for raw materials and service. Creativity and professionalism
               are the elements that characterize our platform.
-            </motion.p>
+            </motion.p> */}
 
-            <motion.div
+            {/* <motion.div
               className="hero__search"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -89,9 +89,9 @@ const Home = () => {
               >
                 SEARCH
               </motion.button>
-            </motion.div>
+            </motion.div> */}
 
-            <motion.div
+            {/* <motion.div
               className="hero__tags"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -101,7 +101,7 @@ const Home = () => {
               {['Butter Chicken', 'Sushi', 'Pasta', 'Vegan Bowls'].map((tag) => (
                 <Link key={tag} to="/recipes" className="hero__popular-tag">{tag}</Link>
               ))}
-            </motion.div>
+            </motion.div> */}
           </div>
 
           <motion.div
@@ -117,14 +117,14 @@ const Home = () => {
                 className="hero__image"
               />
               <div className="hero__image-ring" />
-              
+
               <motion.div
                 className="hero__float-card hero__float-card--1"
                 animate={{ y: [0, -12, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
               >
                 <Star size={16} fill="#FFD700" color="#FFD700" />
-                <span><strong>4.9</strong> Rating</span>
+                <span><strong>Easy &</strong> Quick Recipes</span>
               </motion.div>
 
               <motion.div
@@ -133,11 +133,11 @@ const Home = () => {
                 transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
               >
                 <div className="hero__float-avatars">
-                  {creators.slice(0, 3).map((c, i) => (
-                    <img key={c.id} src={c.avatar} alt={c.name} style={{ zIndex: 3 - i }} />
-                  ))}
+                  {/* {creators.slice(0, 3).map((c, i) => (
+                    <img key={c.id}  alt={c.name} style={{ zIndex: 3 - i }} />
+                  ))} */}
                 </div>
-                <span><strong>12K+</strong> Creators</span>
+                <span><strong>🍴 Fresh</strong> Recipes Daily</span>
               </motion.div>
 
               <motion.div
@@ -146,7 +146,7 @@ const Home = () => {
                 transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
               >
                 <Flame size={16} color="#D95C78" />
-                <span><strong>50K+</strong> Recipes</span>
+                <span><strong>Ready</strong> in Minutes</span>
               </motion.div>
             </div>
 
@@ -165,7 +165,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== PARTNERS MARQUEE ===== */}
+      {/* ===== PARTNERS MARQUEE =====
       <section className="partners">
         <div className="container">
           <div className="partners__header">
@@ -183,10 +183,10 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ===== STATS ===== */}
-      <section className="stats-section">
+      {/* <section className="stats-section">
         <div className="container">
           <div className="stats-grid">
             {stats.map((stat, i) => (
@@ -194,7 +194,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ===== CATEGORIES ===== */}
       <section className="categories-section section-padding">
@@ -233,7 +233,7 @@ const Home = () => {
       </section>
 
       {/* ===== TRENDING RECIPES ===== */}
-      <section className="trending-section section-padding">
+      {/* <section className="trending-section section-padding">
         <div className="container">
           <SectionHeader
             tag="🔥 Hot Right Now"
@@ -247,7 +247,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ===== TOP RECIPES SHOWCASE ===== */}
       <section className="top-section">
@@ -349,7 +349,7 @@ const Home = () => {
       </section>
 
       {/* ===== SPONSORED ===== */}
-      <section className="sponsored-section section-padding">
+      {/* <section className="sponsored-section section-padding">
         <div className="container">
           <SectionHeader
             tag="✨ Featured"
@@ -363,10 +363,10 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ===== VIDEO CTA ===== */}
-      <section className="video-cta-section">
+      {/* <section className="video-cta-section">
         <div className="container">
           <motion.div
             className="video-cta"
@@ -397,7 +397,7 @@ const Home = () => {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* ===== FINAL CTA ===== */}
       <section className="final-cta section-padding">
@@ -448,22 +448,22 @@ const SectionHeader = ({ tag, title, desc, link, light = false }: { tag: string;
   </div>
 );
 
-const CountUpStat = ({ stat, index }: { stat: typeof stats[0]; index: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  return (
-    <motion.div
-      ref={ref}
-      className="stat-card"
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-    >
-      <div className="stat-card__icon">{stat.icon}</div>
-      <div className="stat-card__value">{stat.value}</div>
-      <div className="stat-card__label">{stat.label}</div>
-    </motion.div>
-  );
-};
+// const CountUpStat = ({ stat, index }: { stat: typeof stats[0]; index: number }) => {
+//   const ref = useRef(null);
+//   const isInView = useInView(ref, { once: true });
+//   return (
+//     <motion.div
+//       ref={ref}
+//       className="stat-card"
+//       initial={{ opacity: 0, y: 30 }}
+//       animate={isInView ? { opacity: 1, y: 0 } : {}}
+//       transition={{ delay: index * 0.1, duration: 0.5 }}
+//     >
+//       <div className="stat-card__icon">{stat.icon}</div>
+//       <div className="stat-card__value">{stat.value}</div>
+//       <div className="stat-card__label">{stat.label}</div>
+//     </motion.div>
+//   );
+// };
 
 export default Home;

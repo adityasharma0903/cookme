@@ -53,6 +53,9 @@ export interface Creator {
     instagram?: string;
     youtube?: string;
     twitter?: string;
+    facebook?: string;
+    threads?: string;
+    mail?: string;
   };
 }
 

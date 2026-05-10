@@ -67,6 +67,24 @@
   margin-bottom: 20px;
 }
 
+.footer__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--charcoal);
+  font-weight: 700;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.footer__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lime);
+}
+
 .footer__socials {
   display: flex;
   gap: 10px;

@@ -11,7 +11,7 @@ const Footer = () => {
           <path d="M0,60 C360,120 720,0 1080,60 C1260,90 1380,40 1440,60 L1440,120 L0,120 Z" fill="var(--charcoal)" />
         </svg>
       </div>
-      
+
       <div className="footer__main">
         <div className="container">
           <div className="footer__grid">
@@ -31,11 +31,14 @@ const Footer = () => {
                   </motion.a>
                 ))}
               </div>
+              <Link to="/contact" className="footer__cta">
+                Contact Us
+              </Link>
             </div>
 
             <div className="footer__col">
               <h4 className="footer__col-title">Explore</h4>
-              {['Recipes', 'Categories', 'Trending', 'Top Creators', 'New Recipes'].map((item) => (
+              {['Recipes', 'Trending', 'Top Creators', 'New Recipes'].map((item) => (
                 <Link key={item} to={`/${item.toLowerCase().replace(' ', '-')}`} className="footer__link">
                   {item} <ArrowUpRight size={12} />
                 </Link>

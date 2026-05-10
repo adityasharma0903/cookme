@@ -27,8 +27,9 @@ const Navbar = () => {
     { path: '/', label: 'Home' },
     { path: '/recipes', label: 'Recipes' },
     { path: '/creators', label: 'Creators' },
-    { path: '/categories', label: 'Categories' },
-    { path: '/trending', label: 'Trending', icon: <Flame size={14} /> },
+    { path: '/contact', label: 'Contact' },
+    // { path: '/categories', label: 'Categories' },
+    // { path: '/trending', label: 'Trending', icon: <Flame size={14} /> },
   ];
 
   return (
@@ -60,7 +61,7 @@ const Navbar = () => {
                 to={link.path}
                 className={`navbar__link ${location.pathname === link.path ? 'navbar__link--active' : ''}`}
               >
-                {link.icon && <span className="navbar__link-icon">{link.icon}</span>}
+                {/* {link.icon && <span className="navbar__link-icon">{link.icon}</span>} */}
                 {link.label}
                 {location.pathname === link.path && (
                   <motion.div className="navbar__link-indicator" layoutId="nav-indicator" />
@@ -182,7 +183,6 @@ const Navbar = () => {
                       className={`navbar__mobile-link ${location.pathname === link.path ? 'navbar__mobile-link--active' : ''}`}
                     >
                       {link.label}
-                      {link.icon}
                     </Link>
                   </motion.div>
                 ))}

@@ -257,10 +257,11 @@
 @media (hover: none) {
   .cp-ig-grid-overlay {
     opacity: 1;
-    background: linear-gradient(to top, rgba(80,30,40,0.75) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(80, 30, 40, 0.75) 0%, transparent 60%);
     align-items: flex-end;
     padding: 10px;
   }
+
   .cp-ig-grid-stats {
     gap: 16px;
     font-size: 12px;
@@ -305,7 +306,7 @@
   left: 0;
   right: 0;
   padding: 12px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
   color: white;
   font-size: 13px;
   font-weight: 600;
@@ -354,7 +355,7 @@
 
 .cp-social-link:hover {
   transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 /* YouTube - Red */
@@ -396,7 +397,7 @@
   left: 0;
   right: 0;
   padding: 12px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
   color: white;
   font-size: 13px;
   font-weight: 600;
@@ -420,75 +421,141 @@
 }
 
 .cp-ig-empty p {
-  font-size: 1rem;
-}
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .cp-ig-header {
-    padding: 20px 0;
+  /* Mobile Responsive */
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .cp-ig-header {
+      padding: 20px 0;
+    }
+
+    .cp-ig-profile {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .cp-ig-avatar-wrap {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .cp-ig-avatar {
+      width: 100px;
+      height: 100px;
+    }
+
+    .cp-ig-verified-badge {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cp-ig-info {
+      display: contents;
+    }
+
+    .cp-ig-header-text {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      justify-content: center;
+      min-height: 100px;
+      /* match avatar height */
+    }
+
+    .cp-ig-display-name {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .cp-ig-specialty {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .cp-ig-stats {
+      grid-column: 2;
+      grid-row: 2;
+      margin: 0;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .cp-ig-stat strong {
+      font-size: 18px;
+    }
+
+    .cp-ig-bio {
+      grid-column: 2;
+      grid-row: 3;
+      margin-top: 4px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .cp-ig-socials {
+      grid-column: 1 / span 2;
+      grid-row: 4;
+      margin: 0;
+      margin-bottom: 16px;
+      justify-content: flex-start;
+      padding-top: 16px;
+      border-top: 1px solid rgba(88, 61, 56, 0.1);
+    }
+
+    .cp-ig-actions {
+      grid-column: 1 / span 2;
+      grid-row: 5;
+      justify-content: flex-start;
+    }
+
+    .cp-ig-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 8px;
+    }
   }
 
-  .cp-ig-profile {
-    gap: 24px;
+  @media (max-width: 480px) {
+    .cp-ig-profile {
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+    }
+
+    .cp-ig-avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    .cp-ig-header-text {
+      min-height: 80px;
+    }
+
+    .cp-ig-display-name {
+      font-size: 18px;
+    }
   }
 
-  .cp-ig-avatar {
-    width: 100px;
-    height: 100px;
+  /* Social icon links helper */
+  .cp-ig-socials {
+    display: flex;
+    gap: 12px;
   }
 
-  .cp-ig-verified-badge {
+  .cp-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 36px;
     height: 36px;
-  }
-
-  .cp-ig-stats {
-    gap: 24px;
-  }
-
-  .cp-ig-stat strong {
-    font-size: 18px;
-  }
-
-  .cp-ig-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .cp-ig-display-name {
-    font-size: 20px;
-  }
-
-  .cp-ig-actions {
-    flex-wrap: wrap;
-  }
+    border-radius: 8px;
+    background: white;
+    color: #5a3d38;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  } 
 }
-
-@media (max-width: 480px) {
-  .cp-ig-profile {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .cp-ig-avatar {
-    width: 80px;
-    height: 80px;
-  }
-
-  .cp-ig-stats {
-    gap: 16px;
-  }
-
-  .cp-ig-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .cp-ig-display-name {
-    font-size: 18px;
-  }
-}
-
-/* Social icon links */
-.cp-ig-socials { display: flex; gap: 12px; margin-top: 12px; }
-.cp-social-link { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: white; color: #5a3d38; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
-.cp-social-link svg { display: block; }

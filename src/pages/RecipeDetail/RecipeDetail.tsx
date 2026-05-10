@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Bookmark, Share2, Clock, Users, Flame, BadgeCheck, MessageCircle, Eye, ArrowLeft, Printer, Send } from 'lucide-react';
 import { useAuth, RecipeComment } from '../../context/AuthContext';
@@ -9,6 +9,7 @@ import './RecipeDetail.css';
 
 const RecipeDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user, getAllCreatorRecipes, isRecipeLiked, isRecipeSaved, toggleLikeRecipe, toggleSaveRecipe, getComments, addComment } = useAuth();
   const recipes = getAllCreatorRecipes();
   
@@ -22,6 +23,7 @@ const RecipeDetail = () => {
   const [comments, setComments] = useState<RecipeComment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState<'ingredients' | 'directions'>('ingredients');
   const commentInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -160,7 +162,9 @@ const RecipeDetail = () => {
         </div>
         <div className="rd-hero__content container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <Link to="/recipes" className="rd-back"><ArrowLeft size={16} /> Back to Recipes</Link>
+            <button onClick={() => navigate(-1)} className="rd-back" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <ArrowLeft size={16} /> Back
+            </button>
             <div className="rd-hero__badges">
               <span className="rd-badge rd-badge--cat">{recipe.category}</span>
               <span className={`rd-badge rd-badge--diff rd-badge--${recipe.difficulty.toLowerCase()}`}>{recipe.difficulty}</span>
@@ -190,25 +194,29 @@ const RecipeDetail = () => {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="rd-stats-bar">
-        <div className="container">
-          <div className="rd-stats">
-            <div className="rd-stat"><Clock size={18} /><div><strong>{recipe.prepTime + recipe.cookTime} min</strong><span>Total Time</span></div></div>
-            <div className="rd-stat"><Users size={18} /><div><strong>{recipe.servings}</strong><span>Servings</span></div></div>
-            <div className="rd-stat"><Flame size={18} /><div><strong>{recipe.calories}</strong><span>Calories</span></div></div>
-            <div className="rd-stat"><Heart size={18} /><div><strong>{likeCount}</strong><span>Likes</span></div></div>
-            <div className="rd-stat"><Eye size={18} /><div><strong>{recipe.views || 0}</strong><span>Views</span></div></div>
-            <div className="rd-stat"><MessageCircle size={18} /><div><strong>{comments.length || recipe.comments || 0}</strong><span>Comments</span></div></div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Main Content */}
       <section className="rd-main container">
+        {/* Mobile Tabs */}
+        <div className="rd-mobile-tabs">
+          <button 
+            className={`rd-mobile-tab ${activeMobileTab === 'ingredients' ? 'active' : ''}`}
+            onClick={() => setActiveMobileTab('ingredients')}
+          >
+            Ingredients
+          </button>
+          <button 
+            className={`rd-mobile-tab ${activeMobileTab === 'directions' ? 'active' : ''}`}
+            onClick={() => setActiveMobileTab('directions')}
+          >
+            Directions
+          </button>
+        </div>
+
         <div className="rd-grid">
           {/* Ingredients */}
-          <motion.div className="rd-ingredients" initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <motion.div className={`rd-ingredients ${activeMobileTab !== 'ingredients' ? 'mobile-hidden' : ''}`} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <h2 className="rd-section-title">🧂 Ingredients</h2>
             <p className="rd-section-sub">For {recipe.servings} servings</p>
             <ul className="rd-ingredients-list">
@@ -223,7 +231,7 @@ const RecipeDetail = () => {
           </motion.div>
 
           {/* Steps */}
-          <div className="rd-steps">
+          <div className={`rd-steps ${activeMobileTab !== 'directions' ? 'mobile-hidden' : ''}`}>
             <h2 className="rd-section-title">👨‍🍳 Cooking Steps</h2>
             <div className="rd-steps-list">
               {recipe.steps.map((step, i) => (

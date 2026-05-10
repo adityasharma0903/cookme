@@ -1,4 +1,4 @@
-.admin-dash { display: flex; min-height: 100vh; background: #F5F3EE; }
+.admin-dash { display: block; min-height: 100vh; background: #F5F3EE; }
 
 /* Sidebar */
 .admin-sidebar { width: 260px; background: var(--charcoal); color: white; display: flex; flex-direction: column; padding: 24px 16px; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; }
@@ -94,7 +94,7 @@
 }
 @media (max-width: 768px) {
   .admin-sidebar { width: 60px; padding: 16px 8px; }
-  .admin-sidebar__logo span, .admin-sidebar__role, .admin-nav-btn span, .admin-sidebar__user div, .admin-sidebar__name, .admin-sidebar__email { display: none; }
+  .admin-sidebar__logo span, .admin-sidebar__role, .admin-nav-btn span, .admin-sidebar__user div, .admin-sidebar__name, .admin-sidebar__email, .admin-logout-btn span { display: none; }
   .admin-nav-btn { justify-content: center; padding: 12px; }
   .admin-main { margin-left: 60px; padding: 20px; }
   .admin-stats-grid { grid-template-columns: 1fr 1fr; }
