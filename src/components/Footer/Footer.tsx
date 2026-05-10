@@ -20,13 +20,6 @@ const Footer = () => {
                 A sponsor-based recipe sharing platform where creators publish engaging recipes,
                 grow their audience, and compete through trending content.
               </p>
-              <div className="footer__socials">
-                {[Globe, Video, MessageSquare, Mail].map((Icon, i) => (
-                  <motion.a key={i} href="#" className="footer__social" whileHover={{ scale: 1.15, y: -3 }} whileTap={{ scale: 0.95 }}>
-                    <Icon size={18} />
-                  </motion.a>
-                ))}
-              </div>
               <Link to="/contact" className="footer__cta">
                 Contact Us
               </Link>
@@ -34,18 +27,15 @@ const Footer = () => {
 
             <div className="footer__col">
               <h4 className="footer__col-title">Explore</h4>
-              {['Recipes', 'Trending', 'Top Creators', 'New Recipes'].map((item) => (
-                <Link key={item} to={`/${item.toLowerCase().replace(' ', '-')}`} className="footer__link">
-                  {item} <ArrowUpRight size={12} />
-                </Link>
-              ))}
-            </div>
-
-            <div className="footer__col">
-              <h4 className="footer__col-title">Company</h4>
-              {['About Us', 'Careers', 'Press', 'Blog', 'Contact'].map((item) => (
-                <Link key={item} to={`/${item.toLowerCase().replace(' ', '-')}`} className="footer__link">
-                  {item} <ArrowUpRight size={12} />
+              {[
+                { name: 'Home', path: '/' },
+                { name: 'Recipes', path: '/recipes' },
+                { name: 'Creators', path: '/creators' },
+                { name: 'Trending', path: '/trending' },
+                { name: 'Collaboration', path: '/collaborate' }
+              ].map((item) => (
+                <Link key={item.name} to={item.path} className="footer__link">
+                  {item.name} <ArrowUpRight size={12} />
                 </Link>
               ))}
             </div>

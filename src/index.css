@@ -264,4 +264,8 @@ input, textarea, select {
   .container {
     padding: 0 var(--space-md);
   }
+
+  body {
+    padding-bottom: 65px;
+  }
 }

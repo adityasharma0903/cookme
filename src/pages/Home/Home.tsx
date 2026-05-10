@@ -413,7 +413,7 @@ const Home = () => {
               <span className="final-cta__highlight">Recipes</span> with the World?
             </h2>
             <p className="final-cta__desc">
-              Join thousands of creators, build your audience, and become the next trending chef on Zaike Recipes
+              Join thousands of creators, build your audience, and become the next trending chef on Zaika Recipes
             </p>
             <div className="final-cta__buttons">
               <Link to="/register">

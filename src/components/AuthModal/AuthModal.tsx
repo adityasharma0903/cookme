@@ -99,7 +99,7 @@ const AuthModal = ({ isOpen, onClose, defaultTab = 'login', message }: AuthModal
 
           <div className="auth-modal__header">
             <div className="auth-modal__logo"><ChefHat size={28} /></div>
-            <h2>COOK<span className="text-accent">.</span>ME</h2>
+            <h2>Zaika Recipes</h2>
             {message && <p className="auth-modal__message">{message}</p>}
           </div>
 

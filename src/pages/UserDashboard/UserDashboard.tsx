@@ -31,7 +31,7 @@ const UserDashboard: React.FC = () => {
       <div className="following-list">
         {followingCreators.map((c: any) => (
           <a key={c.id} href={`/creator/${c.id}`} className="following-item">
-            <img src={c.avatar} alt={c.name} style={{ width:40,height:40,borderRadius:999,objectFit:'cover',marginRight:8 }} />
+            <img src={c.avatar} alt={c.name} style={{ width: 40, height: 40, borderRadius: 999, objectFit: 'cover', marginRight: 8 }} />
             <span>{c.name}</span>
           </a>
         ))}

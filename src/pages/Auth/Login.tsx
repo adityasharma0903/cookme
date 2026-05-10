@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, ChefHat, Eye, EyeOff, ArrowRight, Shield, Sparkles, AlertCircle, User } from 'lucide-react';
+import { Mail, Lock, ChefHat, Eye, EyeOff, ArrowRight, ArrowLeft, Shield, Sparkles, AlertCircle, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Auth.css';
 
@@ -78,7 +78,7 @@ const Login = () => {
           </div>
           <motion.div className="auth-left__info" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}>
             <div className="auth-left__logo"><ChefHat size={32} /></div>
-            <h2>Welcome to<br />COOK<span className="text-accent">.</span>ME</h2>
+            <h2>Welcome to<br />Zaika <span className="text-accent">Recipes</span></h2>
             <p>The recipe creator marketplace where sponsors publish engaging recipes and grow their audience.</p>
             <div className="auth-left__features">
               <div className="auth-feature">🍳 <span>Create & share recipes</span></div>
@@ -94,7 +94,9 @@ const Login = () => {
 
       <div className="auth-right">
         <motion.div className="auth-form-wrap" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          
+          <button onClick={() => navigate('/')} className="auth-back-btn">
+            <ArrowLeft size={18} /> Back to Home
+          </button>
 
           {!isSignup ? (
             <>

@@ -208,8 +208,8 @@
 .cp-ig-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 8px;
   padding: 0;
   background: #FDE9EA; /* Match feed background */
 }
@@ -383,8 +383,8 @@
   }
 
   .cp-ig-grid { 
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 1px;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 8px;
   }
   
   .cp-ig-feed {

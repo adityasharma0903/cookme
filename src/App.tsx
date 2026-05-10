@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import MobileNav from './components/MobileNav/MobileNav';
 import Home from './pages/Home/Home';
 import Recipes from './pages/Recipes/Recipes';
 import RecipeDetail from './pages/RecipeDetail/RecipeDetail';
@@ -86,6 +87,7 @@ function App() {
     <>
       {!hideNavFooter && <Navbar />}
       <AnimatedRoutes />
+      {!hideNavFooter && <MobileNav />}
       {!hideNavFooter && <Footer />}
     </>
   );

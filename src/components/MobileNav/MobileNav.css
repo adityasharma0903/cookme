@@ -1,0 +1,113 @@
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(200, 90, 112, 0.1);
+  display: none;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-search-overlay {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(200, 90, 112, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  z-index: 1005;
+}
+
+.mobile-search-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1004;
+}
+
+.mobile-search-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mobile-search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fdf5f6;
+  padding: 0 16px;
+  border-radius: 999px;
+  height: 48px;
+  border: 1.5px solid rgba(200, 90, 112, 0.1);
+}
+
+.mobile-search-icon {
+  color: #C85A70;
+  opacity: 0.6;
+}
+
+.mobile-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: #3c1f28;
+}
+
+.mobile-search-close {
+  color: #8b6572;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #8b6572;
+  text-decoration: none;
+  transition: all 0.2s;
+  height: 100%;
+}
+
+.mobile-nav__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.mobile-nav__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav__item--active {
+  color: #C85A70;
+}
+
+.mobile-nav__item--active .mobile-nav__icon {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .mobile-nav {
+    display: grid;
+  }
+}

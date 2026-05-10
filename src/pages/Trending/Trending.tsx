@@ -21,10 +21,6 @@ const Trending = () => {
         </div>
       </section>
       <section className="container section-padding">
-        <div className="trending-info">
-          <TrendingUp size={18} />
-          <span>Showing {trending.length} trending recipes sorted by engagement</span>
-        </div>
         <div className="recipes-grid">
           {trending.map((r, i) => <RecipeCard key={r.id} recipe={r} index={i} />)}
         </div>

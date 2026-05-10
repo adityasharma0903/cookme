@@ -10,7 +10,7 @@ import './Collaborator.css';
 
 // ── Steps config ───────────────────────────────────────────────
 const STEPS = [
-  { id: 1, title: 'Personal Info',   icon: <User size={18} />,  color: '#C85A70' },
+  { id: 1, title: 'Personal Info', icon: <User size={18} />, color: '#C85A70' },
   { id: 2, title: 'Social Presence', icon: <Globe size={18} />, color: '#E97A8F' },
 ];
 
@@ -18,6 +18,8 @@ const STEPS = [
 const PERKS = [
   { icon: <Trophy size={22} />, title: 'Brand Sponsorships', desc: 'Get connected with food brands' },
   { icon: <TrendingUp size={22} />, title: 'Grow Your Audience', desc: 'Reach 500K+ food lovers' },
+  { icon: <Sparkles size={22} />, title: 'Free Collaboration', desc: 'Join our platform for free and start your journey today' },
+  { icon: <Globe size={22} />, title: 'Omnichannel Reach', desc: 'YouTube Reels, Instagram, and Website features in one package' },
 ];
 
 const initialForm = {
@@ -150,7 +152,7 @@ export default function Collaborator() {
             transition={{ delay: 0.2 }}
           >
             Become a <span className="collab-hero__accent">Recipe Creator</span>
-            <br />on Cook<span className="collab-hero__dot">.</span>Me
+            <br />Zaika <span className="collab-hero__dot">Recipes</span>
           </motion.h1>
           <motion.p
             className="collab-hero__desc"
@@ -162,25 +164,7 @@ export default function Collaborator() {
             Share your recipes, build your audience, and unlock brand sponsorships.
           </motion.p>
 
-          {/* Stats row */}
-          <motion.div
-            className="collab-hero__stats"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            {[
-              { val: '500K+', label: 'Monthly Readers' },
-              { val: '1,200+', label: 'Active Recipes' },
-              { val: '₹50K+', label: 'Paid to Creators' },
-              { val: '98%', label: 'Satisfaction Rate' },
-            ].map((s, i) => (
-              <div key={i} className="collab-hero__stat">
-                <strong>{s.val}</strong>
-                <span>{s.label}</span>
-              </div>
-            ))}
-          </motion.div>
+
         </div>
       </section>
 

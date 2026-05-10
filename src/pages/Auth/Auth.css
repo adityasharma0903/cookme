@@ -434,3 +434,23 @@
     flex-direction: column;
   }
 }
+
+.auth-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-warm);
+  margin-bottom: 24px;
+  transition: all var(--transition-fast);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.auth-back-btn:hover {
+  color: var(--charcoal);
+  transform: translateX(-4px);
+}

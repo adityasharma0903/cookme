@@ -222,7 +222,7 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
-  z-index: 998;
+  z-index: 1001;
 }
 
 /* Mobile Menu */
@@ -234,7 +234,7 @@
   width: 320px;
   max-width: 85vw;
   background: var(--cream);
-  z-index: 999;
+  z-index: 1002;
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -297,6 +297,10 @@
   }
   .navbar__hamburger {
     display: flex;
+  }
+  .navbar__action-btn--search,
+  .navbar__search-bar {
+    display: none !important;
   }
 }
 

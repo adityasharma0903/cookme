@@ -7,7 +7,7 @@ const contactMethods = [
     icon: <Mail size={18} />,
     title: 'Email Us',
     subtitle: 'hello@cookwithkaju.com',
-    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Cook.Me&body=Hello%20Cook.Me',
+    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Zaika%20Recipes&body=Hello%20Zaika%20Recipes',
   },
 ];
 
@@ -50,7 +50,7 @@ const Contact = () => {
             <div className="contact-hero__info-boxes">
               <div className="contact-info-box">
                 <h4>Support Hours</h4>
-                <p>Monday - Friday, 9 AM - 7 PM</p>
+                <p>Monday - Saturday, 9 AM - 7 PM</p>
               </div>
               <div className="contact-info-box">
                 <h4>Response Time</h4>
@@ -87,11 +87,11 @@ const Contact = () => {
 
             <a
               className="contact-form__submit"
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Cook.Me&body=Hello%20Cook.Me"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Zaika%20Recipes&body=Hello%20Zaika%20Recipes"
               target="_blank"
               rel="noreferrer"
             >
-              Open Gmail <Send size={16} />
+              Send <Send size={16} />
             </a>
           </motion.div>
         </div>

@@ -44,7 +44,8 @@ const Navbar = () => {
     { path: '/recipes', label: 'Recipes' },
     { path: '/creators', label: 'Creators' },
     { path: '/trending', label: 'Trending', icon: <Flame size={14} /> },
-    { path: '/collaborate', label: '✨ Collaborate' },
+    { path: '/contact', label: 'Contact Us' },
+    { path: '/collaborate', label: 'Collaborate' },
   ];
 
   return (
@@ -87,7 +88,7 @@ const Navbar = () => {
 
           <div className="navbar__actions">
             <motion.button
-              className="navbar__action-btn"
+              className="navbar__action-btn navbar__action-btn--search"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSearchOpen(!searchOpen)}
@@ -182,7 +183,7 @@ const Navbar = () => {
             >
               <div className="navbar__mobile-header">
                 <span className="navbar__logo-text">
-                  Zaika<span className="navbar__logo-dot"></span>Recipes
+                  Zaika<span className="navbar__logo-dot"> Recipes</span>
                 </span>
                 <button onClick={() => setIsMobileOpen(false)}>
                   <X size={24} />
