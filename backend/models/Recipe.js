@@ -12,12 +12,19 @@ const stepSchema = new mongoose.Schema({
   description: { type: String, required: true }
 });
 
+const allowedCategories = [
+  'Drinks & Mocktails',
+  'Fast Food & Snacks',
+  'Salads & Healthy Recipes',
+  'Desserts & Sweet Treats'
+];
+
 const recipeSchema = new mongoose.Schema({
   creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: true },
-  category: { type: String, required: true },
+  category: { type: String, required: true, enum: allowedCategories },
   difficulty: { type: String, required: true },
   prepTime: { type: Number, required: true },
   cookTime: { type: Number, required: true },

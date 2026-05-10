@@ -1091,8 +1091,12 @@
 
   .recipes-grid,
   .creators-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .creator-card {
+    width: 100%;
   }
 
   .top-grid {

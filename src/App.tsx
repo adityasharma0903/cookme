@@ -19,6 +19,7 @@ import Saved from './pages/Saved/Saved';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import CreatorDashboard from './pages/CreatorDashboard/CreatorDashboard';
 import UserDashboard from './pages/UserDashboard/UserDashboard';
+import Collaborator from './pages/Collaborator/Collaborator';
 
 
 // Protected route for admin
@@ -68,6 +69,7 @@ function AnimatedRoutes() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/dashboard" element={<DashboardRoute />} />
+          <Route path="/collaborate" element={<Collaborator />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

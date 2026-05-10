@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Menu, X, Heart, User, ChefHat, Flame, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -9,7 +9,9 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -21,15 +23,28 @@ const Navbar = () => {
   useEffect(() => {
     setIsMobileOpen(false);
     setSearchOpen(false);
+    setSearchQuery('');
   }, [location]);
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/recipes?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/recipes', label: 'Recipes' },
     { path: '/creators', label: 'Creators' },
-    { path: '/contact', label: 'Contact' },
-    // { path: '/categories', label: 'Categories' },
-    // { path: '/trending', label: 'Trending', icon: <Flame size={14} /> },
+    { path: '/trending', label: 'Trending', icon: <Flame size={14} /> },
+    { path: '/collaborate', label: '✨ Collaborate' },
   ];
 
   return (
@@ -136,9 +151,12 @@ const Navbar = () => {
                   type="text"
                   placeholder="Search 5M+ recipes, creators, cuisines..."
                   className="navbar__search-input"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   autoFocus
                 />
-                <button className="navbar__search-btn">Search</button>
+                <button className="navbar__search-btn" onClick={handleSearch}>Search</button>
               </div>
             </motion.div>
           )}

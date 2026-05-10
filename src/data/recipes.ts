@@ -4,7 +4,7 @@ import { creators } from './creators';
 export const recipes: Recipe[] = [
   {
     id: 'r1', title: 'Butter Chicken Masala', description: 'A rich, creamy tomato-based curry with tender chicken pieces, aromatic spices, and a velvety smooth sauce that melts in your mouth.',
-    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&h=400&fit=crop', category: 'Indian', cuisine: 'North Indian', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'North Indian', difficulty: 'Medium',
     prepTime: 20, cookTime: 40, servings: 4, calories: 450,
     ingredients: [
       { name: 'Chicken', amount: '500', unit: 'g' }, { name: 'Tomato Puree', amount: '2', unit: 'cups' },
@@ -22,7 +22,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r2', title: 'Truffle Mushroom Risotto', description: 'Luxurious Italian risotto with wild mushrooms, truffle oil, and aged Parmesan. Creamy perfection in every bite.',
-    image: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&h=400&fit=crop', category: 'Italian', cuisine: 'Italian', difficulty: 'Hard',
+    image: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'Italian', difficulty: 'Hard',
     prepTime: 15, cookTime: 35, servings: 2, calories: 520,
     ingredients: [
       { name: 'Arborio Rice', amount: '300', unit: 'g' }, { name: 'Wild Mushrooms', amount: '200', unit: 'g' },
@@ -40,7 +40,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r3', title: 'Rainbow Buddha Bowl', description: 'A vibrant, nutrient-packed bowl featuring colorful roasted vegetables, quinoa, avocado, and tahini dressing.',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop', category: 'Vegan', cuisine: 'International', difficulty: 'Easy',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop', category: 'Salads & Healthy Recipes', cuisine: 'International', difficulty: 'Easy',
     prepTime: 15, cookTime: 25, servings: 2, calories: 380,
     ingredients: [
       { name: 'Quinoa', amount: '1', unit: 'cup' }, { name: 'Sweet Potato', amount: '1', unit: 'large' },
@@ -58,7 +58,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r4', title: 'Tonkotsu Ramen', description: 'Rich, milky pork bone broth ramen with chashu, soft-boiled egg, and handmade noodles. 12-hour broth perfection.',
-    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop', category: 'Japanese', cuisine: 'Japanese', difficulty: 'Hard',
+    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'Japanese', difficulty: 'Hard',
     prepTime: 30, cookTime: 720, servings: 4, calories: 650,
     ingredients: [
       { name: 'Pork Bones', amount: '2', unit: 'kg' }, { name: 'Chashu Pork', amount: '500', unit: 'g' },
@@ -76,7 +76,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r5', title: 'Street-Style Tacos Al Pastor', description: 'Authentic Mexican street tacos with marinated pork, fresh pineapple, cilantro, and homemade salsa verde.',
-    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop', category: 'Mexican', cuisine: 'Mexican', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'Mexican', difficulty: 'Medium',
     prepTime: 30, cookTime: 45, servings: 6, calories: 380,
     ingredients: [
       { name: 'Pork Shoulder', amount: '1', unit: 'kg' }, { name: 'Pineapple', amount: '1', unit: 'whole' },
@@ -94,7 +94,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r6', title: 'French Chocolate Soufflé', description: 'An ethereal chocolate dessert that rises to perfection. Light, airy, and intensely chocolatey with a molten center.',
-    image: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?w=600&h=400&fit=crop', category: 'Desserts', cuisine: 'French', difficulty: 'Hard',
+    image: 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?w=600&h=400&fit=crop', category: 'Desserts & Sweet Treats', cuisine: 'French', difficulty: 'Hard',
     prepTime: 20, cookTime: 14, servings: 4, calories: 320,
     ingredients: [
       { name: 'Dark Chocolate', amount: '200', unit: 'g' }, { name: 'Eggs', amount: '4', unit: 'whole' },
@@ -112,7 +112,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r7', title: 'Spicy Thai Green Curry', description: 'Aromatic Thai green curry with coconut milk, Thai basil, and crispy vegetables. Restaurant-quality at home.',
-    image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop', category: 'Indian', cuisine: 'Thai', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&h=400&fit=crop', category: 'Salads & Healthy Recipes', cuisine: 'Thai', difficulty: 'Medium',
     prepTime: 15, cookTime: 25, servings: 4, calories: 410,
     ingredients: [
       { name: 'Green Curry Paste', amount: '4', unit: 'tbsp' }, { name: 'Coconut Milk', amount: '2', unit: 'cans' },
@@ -130,7 +130,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r8', title: 'Homemade Margherita Pizza', description: 'Classic Neapolitan pizza with San Marzano tomatoes, fresh mozzarella, basil, and a perfectly charred crust.',
-    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop', category: 'Italian', cuisine: 'Italian', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'Italian', difficulty: 'Medium',
     prepTime: 120, cookTime: 12, servings: 2, calories: 680,
     ingredients: [
       { name: 'Pizza Dough', amount: '500', unit: 'g' }, { name: 'San Marzano Tomatoes', amount: '1', unit: 'can' },
@@ -148,7 +148,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r9', title: 'Matcha Tiramisu', description: 'A Japanese-Italian fusion dessert combining creamy mascarpone layers with vibrant matcha green tea powder.',
-    image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&h=400&fit=crop', category: 'Desserts', cuisine: 'Fusion', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&h=400&fit=crop', category: 'Desserts & Sweet Treats', cuisine: 'Fusion', difficulty: 'Medium',
     prepTime: 30, cookTime: 0, servings: 6, calories: 340,
     ingredients: [
       { name: 'Mascarpone', amount: '500', unit: 'g' }, { name: 'Matcha Powder', amount: '3', unit: 'tbsp' },
@@ -166,7 +166,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r10', title: 'Grilled Lobster Tail', description: 'Succulent grilled lobster tails with herb garlic butter, lemon, and a touch of smoky char.',
-    image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=600&h=400&fit=crop', category: 'Seafood', cuisine: 'American', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'American', difficulty: 'Medium',
     prepTime: 10, cookTime: 12, servings: 2, calories: 280,
     ingredients: [
       { name: 'Lobster Tails', amount: '4', unit: 'pieces' }, { name: 'Butter', amount: '1/2', unit: 'cup' },
@@ -184,7 +184,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r11', title: 'Avocado Sushi Rolls', description: 'Fresh and colorful inside-out sushi rolls with creamy avocado, cucumber, and spicy mayo drizzle.',
-    image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=600&h=400&fit=crop', category: 'Japanese', cuisine: 'Japanese', difficulty: 'Medium',
+    image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=600&h=400&fit=crop', category: 'Salads & Healthy Recipes', cuisine: 'Japanese', difficulty: 'Medium',
     prepTime: 30, cookTime: 20, servings: 4, calories: 290,
     ingredients: [
       { name: 'Sushi Rice', amount: '2', unit: 'cups' }, { name: 'Avocado', amount: '2', unit: 'whole' },
@@ -202,7 +202,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'r12', title: 'Smoky BBQ Brisket', description: 'Low and slow smoked beef brisket with a caramelized bark, juicy interior, and homemade BBQ sauce.',
-    image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&h=400&fit=crop', category: 'BBQ & Grill', cuisine: 'American', difficulty: 'Hard',
+    image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&h=400&fit=crop', category: 'Fast Food & Snacks', cuisine: 'American', difficulty: 'Hard',
     prepTime: 30, cookTime: 720, servings: 10, calories: 480,
     ingredients: [
       { name: 'Beef Brisket', amount: '5', unit: 'kg' }, { name: 'Brown Sugar', amount: '1/2', unit: 'cup' },

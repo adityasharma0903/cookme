@@ -11,7 +11,6 @@ export interface CreatorAccount {
   specialty: string;
   followers: number;
   following: string[];
-  followersList?: string[];
   isVerified: boolean;
   status: 'Active' | 'Suspended';
   socialLinks: { instagram?: string; youtube?: string; twitter?: string };
@@ -49,18 +48,6 @@ export interface CreatorRecipe {
   cuisine?: string;
   likedBy?: string[];
   savedBy?: string[];
-}
-
-export interface CreatorReel {
-  id: string;
-  creator: CreatorAccount | any;
-  title: string;
-  thumbnail: string;
-  videoUrl: string;
-  description: string;
-  likes: number;
-  views: number;
-  createdAt: string;
 }
 
 export interface RecipeComment {
@@ -102,10 +89,6 @@ interface AuthContextType {
   deleteRecipe: (id: string) => Promise<void>;
   getMyRecipes: () => CreatorRecipe[];
   getAllCreatorRecipes: () => CreatorRecipe[];
-  getAllReels: () => CreatorReel[];
-  addReel: (reel: any) => Promise<void>;
-  deleteReel: (id: string) => Promise<void>;
-  getMyReels: () => CreatorReel[];
   updateProfile: (data: any) => Promise<void>;
   changePassword: (oldPass: string, newPass: string) => Promise<{ success: boolean; error?: string }>;
   // User interactions
@@ -124,17 +107,15 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const [creators, setCreators] = useState<CreatorAccount[]>([]);
   const [recipes, setRecipes] = useState<CreatorRecipe[]>([]);
-  const [reels, setReels] = useState<CreatorReel[]>([]);
 
   const fetchData = async () => {
     try {
-      const [creatorsRes, recipesRes, reelsRes] = await Promise.all([
+      const [creatorsRes, recipesRes] = await Promise.all([
         API.get('/users/creators'),
         API.get('/recipes'),
-        API.get('/reels')
       ]);
       const mapId = (item: any) => {
         if (item._id && !item.id) item.id = item._id;
@@ -143,24 +124,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
       setCreators(creatorsRes.data.map(mapId));
       setRecipes(recipesRes.data.map(mapId));
-      setReels(reelsRes.data.map(mapId));
     } catch (err) {
       console.error('Error fetching data', err);
     }
   };
 
-  // Fetch current user's full profile (for following, saved, liked)
   const refreshUserProfile = async () => {
+    if (!user) return;
     try {
-      const { data } = await API.get('/auth/me');
+      const { data } = await API.get('/users/me');
       if (data._id && !data.id) data.id = data._id;
-      const savedUser = localStorage.getItem('cookme_user');
-      const token = savedUser ? JSON.parse(savedUser).token : '';
-      const fullUser = { ...data, token, id: data._id || data.id };
-      setUser(fullUser);
-      localStorage.setItem('cookme_user', JSON.stringify(fullUser));
+      const updated = { ...user, ...data };
+      setUser(updated);
+      localStorage.setItem('cookme_user', JSON.stringify(updated));
     } catch (err) {
-      // silent
+      console.error('Error refreshing profile', err);
     }
   };
 
@@ -181,8 +159,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(data);
       localStorage.setItem('cookme_user', JSON.stringify(data));
       await fetchData();
-      // Also fetch full profile for following/liked/saved arrays
-      setTimeout(() => refreshUserProfile(), 300);
       return { success: true };
     } catch (error: any) {
       return { success: false, error: error.response?.data?.message || 'Login failed' };
@@ -198,7 +174,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await fetchData();
       return { success: true };
     } catch (error: any) {
-      return { success: false, error: error.response?.data?.message || 'Registration failed' };
+      return { success: false, error: error.response?.data?.message || 'Signup failed' };
     }
   };
 
@@ -244,24 +220,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const creatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
     return creatorId === user.id;
   }) : [];
-  
+
   const getAllCreatorRecipes = () => recipes;
-  const getAllReels = () => reels;
-
-  const addReel = async (reel: any) => {
-    await API.post('/reels', reel);
-    await fetchData();
-  };
-
-  const deleteReel = async (id: string) => {
-    await API.delete(`/reels/${id}`);
-    await fetchData();
-  };
-
-  const getMyReels = () => user ? reels.filter(r => {
-    const creatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
-    return creatorId === user.id;
-  }) : [];
 
   const updateProfile = async (data: any) => {
     if (!user) return;
@@ -386,7 +346,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user, isLoading, login, signup, logout, fetchData,
       createCreator, updateCreator, deleteCreator, getCreators, getCreatorById,
       addRecipe, updateRecipe, deleteRecipe, getMyRecipes, getAllCreatorRecipes,
-      getAllReels, addReel, deleteReel, getMyReels,
       updateProfile, changePassword,
       toggleLikeRecipe, toggleSaveRecipe, toggleFollowUser,
       getComments: getCommentsForRecipe, addComment: addCommentToRecipe,

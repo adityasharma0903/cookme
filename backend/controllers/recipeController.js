@@ -2,6 +2,15 @@ const Recipe = require('../models/Recipe');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
 
+const allowedCategories = [
+  'Drinks & Mocktails',
+  'Fast Food & Snacks',
+  'Salads & Healthy Recipes',
+  'Desserts & Sweet Treats'
+];
+
+const validateCategory = (category) => allowedCategories.includes(category);
+
 // @desc    Get all recipes
 // @route   GET /api/recipes
 // @access  Public
@@ -29,6 +38,10 @@ const getRecipeById = async (req, res) => {
 // @route   POST /api/recipes
 // @access  Private/Creator
 const createRecipe = async (req, res) => {
+  if (req.body.category && !validateCategory(req.body.category)) {
+    return res.status(400).json({ message: 'Invalid category' });
+  }
+
   const recipe = new Recipe({
     creator: req.user._id,
     ...req.body
@@ -46,6 +59,9 @@ const updateRecipe = async (req, res) => {
   if (recipe) {
     if (recipe.creator.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
       return res.status(401).json({ message: 'Not authorized to edit this recipe' });
+    }
+    if (req.body.category && !validateCategory(req.body.category)) {
+      return res.status(400).json({ message: 'Invalid category' });
     }
     Object.assign(recipe, req.body);
     const updatedRecipe = await recipe.save();

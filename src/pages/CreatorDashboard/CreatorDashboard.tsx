@@ -11,6 +11,13 @@ import './CreatorDashboard.css';
 
 type Tab = 'overview' | 'recipes' | 'profile' | 'settings';
 
+const allowedCategories = [
+  'Drinks & Mocktails',
+  'Fast Food & Snacks',
+  'Salads & Healthy Recipes',
+  'Desserts & Sweet Treats',
+];
+
 const CreatorDashboard = () => {
   const { user, logout, getMyRecipes, addRecipe, updateRecipe, deleteRecipe, updateProfile, changePassword, getCreatorById } = useAuth();
   const navigate = useNavigate();
@@ -279,7 +286,7 @@ const SettingsTab = ({ onChangePassword }: any) => {
 const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) => {
   const [form, setForm] = useState(editing || {
     creatorId, title: '', description: '', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop',
-    category: 'Indian', difficulty: 'Medium', prepTime: 15, cookTime: 30, servings: 4, calories: 400,
+    category: allowedCategories[1], difficulty: 'Medium', prepTime: 15, cookTime: 30, servings: 4, calories: 400,
     ingredients: [{ name: '', amount: '', unit: '' }], steps: [{ number: 1, title: '', description: '' }],
     tags: [], isPublished: true
   });
@@ -328,7 +335,7 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
           <div className="modal__row modal__row--4">
             <div className="modal__field"><label>Category</label>
               <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                {['Indian', 'Italian', 'Japanese', 'Mexican', 'Desserts', 'Vegan', 'Seafood', 'BBQ & Grill'].map(c => <option key={c}>{c}</option>)}
+                {allowedCategories.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div className="modal__field"><label>Difficulty</label>
