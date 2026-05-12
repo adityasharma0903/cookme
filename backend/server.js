@@ -24,6 +24,11 @@ app.use('/api/recipes', require('./routes/recipeRoutes'));
 app.use('/api/reels', require('./routes/reelRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
 
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: Date.now() });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error:', err);
