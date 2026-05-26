@@ -32,7 +32,7 @@ const Categories = () => {
                   <span className="cat-card__icon">{cat.icon}</span>
                   <div className="cat-card__info">
                     <h3 className="cat-card__name">{cat.name}</h3>
-                    <span className="cat-card__count">{cat.recipeCount} recipes</span>
+                    <span className="cat-card__count">{catRecipes.length} recipes</span>
                   </div>
                 </div>
                 {catRecipes.length > 0 && (
