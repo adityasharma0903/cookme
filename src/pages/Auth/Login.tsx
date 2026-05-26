@@ -62,7 +62,7 @@ const Login = () => {
       setPassword('admin123');
       setSelectedRole('admin');
     } else {
-      setEmail('aditya@cookme.com');
+      setEmail('aditya@zaikarecipes.app');
       setPassword('creator123');
       setSelectedRole('creator');
     }

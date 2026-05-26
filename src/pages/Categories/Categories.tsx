@@ -26,7 +26,7 @@ const Categories = () => {
           const catRecipes = recipes.filter(r => r.category === cat.name);
           return (
             <motion.div key={cat.id} className="cat-card" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} whileHover={{ y: -8 }}>
-              <Link to={`/recipes?category=${cat.name}`} className="cat-card__inner">
+              <Link to={`/recipes?category=${encodeURIComponent(cat.name)}`} className="cat-card__inner">
                 <div className="cat-card__image" style={{ backgroundImage: `url(${cat.image})` }}>
                   <div className="cat-card__overlay" style={{ background: `linear-gradient(135deg, ${cat.color}cc, ${cat.color}66)` }} />
                   <span className="cat-card__icon">{cat.icon}</span>

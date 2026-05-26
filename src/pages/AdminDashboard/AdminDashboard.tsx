@@ -44,10 +44,10 @@ const AdminDashboard = () => {
     <div className="admin-dash">
       {/* Sidebar */}
       <aside className="admin-sidebar">
-        <div className="admin-sidebar__logo">
+        <a className="admin-sidebar__logo" href="https://zaikarecipes.app">
           <div className="admin-sidebar__logo-icon"><ChefHat size={22} /></div>
-          <span>COOK<span className="text-accent">.</span>ME</span>
-        </div>
+          <span>zaikarecipes.app</span>
+        </a>
         <div className="admin-sidebar__role">
           <Shield size={14} /> Main Admin
         </div>
@@ -288,7 +288,7 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
         <div className="modal__body">
           <div className="modal__field"><label><User size={14} /> Full Name</label><input value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g., Chef Aditya" /></div>
           <div className="modal__field"><label>Username</label><input value={form.username} onChange={e => setForm({...form, username: e.target.value})} placeholder="unique username (no spaces)" /></div>
-          <div className="modal__field"><label><Mail size={14} /> Email</label><input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="creator@cookme.com" /></div>
+          <div className="modal__field"><label><Mail size={14} /> Email</label><input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="creator@zaikarecipes.app" /></div>
           <div className="modal__field"><label><Lock size={14} /> Password</label><input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Min 6 characters" /></div>
           <div className="modal__field"><label><Sparkles size={14} /> Specialty</label>
             <select value={form.specialty} onChange={e => setForm({...form, specialty: e.target.value})}>

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, SlidersHorizontal, Grid3X3, List, X } from 'lucide-react';
@@ -16,18 +16,31 @@ const Recipes = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('q') || '';
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const categoryFromUrl = searchParams.get('category');
+  const normalizedCategoryFromUrl = categories.some((c) => c.name === categoryFromUrl) ? categoryFromUrl! : 'All';
+  const [selectedCategory, setSelectedCategory] = useState(normalizedCategoryFromUrl);
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [sortBy, setSortBy] = useState('Trending');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
 
+  useEffect(() => {
+    setSelectedCategory(normalizedCategoryFromUrl);
+  }, [normalizedCategoryFromUrl]);
+
   const setSearch = (value: string) => {
-    if (value) setSearchParams({ q: value });
-    else {
-      searchParams.delete('q');
-      setSearchParams(searchParams);
-    }
+    const nextParams = new URLSearchParams(searchParams);
+    if (value) nextParams.set('q', value);
+    else nextParams.delete('q');
+    setSearchParams(nextParams);
+  };
+
+  const updateCategory = (category: string) => {
+    setSelectedCategory(category);
+    const nextParams = new URLSearchParams(searchParams);
+    if (category === 'All') nextParams.delete('category');
+    else nextParams.set('category', category);
+    setSearchParams(nextParams);
   };
 
   const filtered = useMemo(() => {
@@ -65,9 +78,9 @@ const Recipes = () => {
       <section className="recipes-content container">
         <div className="recipes-toolbar">
           <div className="recipes-categories-scroll">
-            <button className={`recipes-cat-btn ${selectedCategory === 'All' ? 'active' : ''}`} onClick={() => setSelectedCategory('All')}>All</button>
+            <button className={`recipes-cat-btn ${selectedCategory === 'All' ? 'active' : ''}`} onClick={() => updateCategory('All')}>All</button>
             {categories.map(c => (
-              <button key={c.id} className={`recipes-cat-btn ${selectedCategory === c.name ? 'active' : ''}`} onClick={() => setSelectedCategory(c.name)}>
+              <button key={c.id} className={`recipes-cat-btn ${selectedCategory === c.name ? 'active' : ''}`} onClick={() => updateCategory(c.name)}>
                 {c.icon} {c.name}
               </button>
             ))}

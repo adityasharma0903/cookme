@@ -42,10 +42,10 @@ const UserDashboard: React.FC = () => {
   return (
     <div className="creator-dash">
       <aside className="creator-sidebar">
-        <div className="admin-sidebar__logo">
+        <a className="admin-sidebar__logo" href="https://zaikarecipes.app">
           <div className="admin-sidebar__logo-icon"><LayoutDashboard size={22} /></div>
-          <span>COOK<span className="text-accent">.</span>ME</span>
-        </div>
+          <span>zaikarecipes.app</span>
+        </a>
         <div className="creator-sidebar__role">User Dashboard</div>
         <nav className="admin-sidebar__nav">
           <button className={`admin-nav-btn ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}><LayoutDashboard size={18} /> <span>Overview</span></button>

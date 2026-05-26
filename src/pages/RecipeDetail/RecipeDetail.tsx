@@ -120,7 +120,7 @@ const RecipeDetail = () => {
         ${recipe.ingredients.map(ing => `<div class="ingredient"><span>${ing.name}</span><span>${ing.amount} ${ing.unit}</span></div>`).join('')}
         <h2>👨‍🍳 Cooking Steps</h2>
         ${recipe.steps.map(step => `<div class="step"><span class="step-num">Step ${step.number}</span><p class="step-title">${step.title}</p><p>${step.description}</p></div>`).join('')}
-        <div class="footer">Printed from COOK.ME • ${new Date().toLocaleDateString()}</div>
+        <div class="footer">Printed from zaikarecipes.app • ${new Date().toLocaleDateString()}</div>
         <script>window.print(); window.close();</script>
       </body>
       </html>

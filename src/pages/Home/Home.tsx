@@ -216,7 +216,7 @@ const Home = () => {
                 transition={{ delay: i * 0.06, duration: 0.4 }}
                 whileHover={{ y: -5, boxShadow: '0 12px 40px rgba(0,0,0,0.12)' }}
               >
-                <Link to={`/recipes?category=${cat.name}`} className="category-pill__inner">
+                <Link to={`/recipes?category=${encodeURIComponent(cat.name)}`} className="category-pill__inner">
                   <div className="category-pill__image" style={{ backgroundImage: `url(${cat.image})` }}>
                     <div className="category-pill__overlay" style={{ background: `linear-gradient(135deg, ${cat.color}dd, ${cat.color}88)` }} />
                     <span className="category-pill__icon">{cat.icon}</span>
