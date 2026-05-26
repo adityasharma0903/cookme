@@ -33,7 +33,7 @@ export interface Ingredient {
 export interface Step {
   number: number;
   title: string;
-  description: string;
+  description?: string;
   image?: string;
   duration?: number;
 }

@@ -72,7 +72,7 @@ const RecipeDetail = () => {
     const url = window.location.href;
     if (navigator.share) {
       try {
-        await navigator.share({ title: recipe.title, text: recipe.description, url });
+        await navigator.share({ title: recipe.title, text: recipe.title, url });
       } catch { /* user cancelled */ }
     } else {
       await navigator.clipboard.writeText(url);
@@ -108,7 +108,6 @@ const RecipeDetail = () => {
       </head>
       <body>
         <h1>${recipe.title}</h1>
-        <p class="subtitle">${recipe.description}</p>
         <p class="subtitle">By ${creatorName}</p>
         <div class="meta">
           <span>⏱ ${recipe.prepTime + recipe.cookTime} min</span>
@@ -119,7 +118,7 @@ const RecipeDetail = () => {
         <h2>🧂 Ingredients</h2>
         ${recipe.ingredients.map(ing => `<div class="ingredient"><span>${ing.name}</span><span>${ing.amount} ${ing.unit}</span></div>`).join('')}
         <h2>👨‍🍳 Cooking Steps</h2>
-        ${recipe.steps.map(step => `<div class="step"><span class="step-num">Step ${step.number}</span><p class="step-title">${step.title}</p><p>${step.description}</p></div>`).join('')}
+        ${recipe.steps.map(step => `<div class="step"><span class="step-num">Step ${step.number}</span><p class="step-title">${step.title}</p></div>`).join('')}
         <div class="footer">Printed from zaikarecipes.app • ${new Date().toLocaleDateString()}</div>
         <script>window.print(); window.close();</script>
       </body>
@@ -172,7 +171,6 @@ const RecipeDetail = () => {
               {recipe.isTrending && <span className="rd-badge rd-badge--trending"><Flame size={12} /> Trending</span>}
             </div>
             <h1 className="rd-hero__title">{recipe.title}</h1>
-            <p className="rd-hero__desc">{recipe.description}</p>
             <div className="rd-hero__creator">
               <img src={recipe.creator.avatar} alt={recipe.creator.name} />
               <div>
@@ -239,7 +237,6 @@ const RecipeDetail = () => {
                   <div className="rd-step__number">{step.number}</div>
                   <div className="rd-step__content">
                     <h4 className="rd-step__title">{step.title}</h4>
-                    <p className="rd-step__desc">{step.description}</p>
                     {step.duration && <span className="rd-step__time"><Clock size={13} /> {step.duration} min</span>}
                   </div>
                 </motion.div>

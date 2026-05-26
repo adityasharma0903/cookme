@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import API, { uploadImage } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import {
   ChefHat, LayoutDashboard, BookOpen, User, Settings, LogOut,
@@ -292,6 +293,7 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
   });
   const [tagInput, setTagInput] = useState('');
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const addIngredient = () => setForm({ ...form, ingredients: [...form.ingredients, { name: '', amount: '', unit: '' }] });
   const removeIngredient = (i: number) => setForm({ ...form, ingredients: form.ingredients.filter((_: any, idx: number) => idx !== i) });
@@ -313,9 +315,26 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
 
   const handleSubmit = () => {
     if (!form.title) { setError('Title is required.'); return; }
-    if (editing) { onUpdate(editing.id, form); }
-    else { onAdd(form); }
+    // merge description into title (no separate description field)
+    const payload = { ...form, description: form.title };
+    if (editing) { onUpdate(editing.id, payload); }
+    else { onAdd(payload); }
     onClose();
+  };
+
+  const handleFileUpload = async (e: any) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      setUploading(true);
+      const url = await uploadImage(file);
+      setForm({ ...form, image: url });
+    } catch (err) {
+      console.error('Upload failed', err);
+      setError('Image upload failed');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -329,9 +348,15 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
         <div className="modal__body modal__body--scroll">
           <div className="modal__row">
             <div className="modal__field"><label>Recipe Title</label><input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g., Butter Chicken Masala" /></div>
-            <div className="modal__field"><label>Image URL</label><input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })} /></div>
+            <div className="modal__field">
+              <label>Image</label>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexDirection: 'column' }}>
+                <input type="file" accept="image/*" capture="environment" onChange={handleFileUpload} />
+                {uploading ? <small>Uploading image...</small> : (form.image && <img src={form.image} alt="preview" style={{ width: 120, height: 80, objectFit: 'cover', borderRadius: 6 }} />)}
+                <input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })} placeholder="or paste an image URL" />
+              </div>
+            </div>
           </div>
-          <div className="modal__field"><label>Description</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="Describe your recipe..." /></div>
           <div className="modal__row modal__row--4">
             <div className="modal__field"><label>Category</label>
               <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
@@ -369,7 +394,6 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
               <div className="modal__step-number">{step.number}</div>
               <div className="modal__step-fields">
                 <input placeholder="Step title" value={step.title} onChange={e => updateStep(i, 'title', e.target.value)} />
-                <textarea placeholder="Step description" value={step.description} onChange={e => updateStep(i, 'description', e.target.value)} rows={2} />
               </div>
               <button className="modal__remove-btn" onClick={() => removeStep(i)}><X size={14} /></button>
             </div>

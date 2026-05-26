@@ -61,9 +61,7 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
 
           <h3 className="recipe-card__title">{recipe.title}</h3>
           
-          {variant !== 'default' && (
-            <p className="recipe-card__desc">{recipe.description}</p>
-          )}
+          {/* description intentionally hidden — use title only */}
 
           <div className="recipe-card__creator">
             <img src={recipe.creator.avatar} alt={recipe.creator.name} className="recipe-card__creator-avatar" />

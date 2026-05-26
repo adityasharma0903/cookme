@@ -278,7 +278,6 @@ const Home = () => {
                   <div className="top-card__content">
                     <span className="top-card__category">{recipe.category}</span>
                     <h3 className="top-card__title">{recipe.title}</h3>
-                    <p className="top-card__desc">{recipe.description}</p>
                     <div className="top-card__creator">
                       <img src={recipe.creator.avatar} alt={recipe.creator.name} />
                       <span>{recipe.creator.name}</span>
