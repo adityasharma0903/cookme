@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth, CreatorAccount } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { uploadImage } from '../../api';
 import {
   Shield, Users, BookOpen, TrendingUp, Plus, Edit3, Trash2, Eye, EyeOff,
   LogOut, Search, ChefHat, BarChart3, UserPlus, X, Check, AlertCircle,
@@ -265,6 +266,24 @@ const AdminDashboard = () => {
 const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCreate: any }) => {
   const [form, setForm] = useState({ username: '', name: '', email: '', password: '', bio: '', specialty: 'Indian Cuisine', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face' });
   const [error, setError] = useState('');
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingAvatar(true);
+      const url = await uploadImage(file);
+      setForm(prev => ({ ...prev, avatar: url }));
+    } catch (uploadError) {
+      console.error('Avatar upload failed', uploadError);
+      setError('Avatar upload failed. Please try again.');
+    } finally {
+      setUploadingAvatar(false);
+      event.target.value = '';
+    }
+  };
 
   const handleSubmit = async () => {
     if (!form.name || !form.email || !form.password) { setError('Name, email, and password are required.'); return; }
@@ -296,7 +315,21 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
             </select>
           </div>
           <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} placeholder="Tell about this creator..." rows={3} /></div>
-          <div className="modal__field"><label>Avatar URL</label><input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} /></div>
+          <div className="modal__field">
+            <label>Profile Photo</label>
+            <div style={{ display: 'grid', gap: 10 }}>
+              <input type="file" accept="image/*" capture="environment" onChange={handleAvatarUpload} />
+              {uploadingAvatar && <small>Uploading photo...</small>}
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                <img
+                  src={form.avatar}
+                  alt="Avatar preview"
+                  style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(217,92,120,0.2)' }}
+                />
+                <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="modal__footer">
           <button className="modal__btn modal__btn--cancel" onClick={onClose}>Cancel</button>
@@ -311,6 +344,23 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
 
 const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAccount; onClose: () => void; onUpdate: any }) => {
   const [form, setForm] = useState({ name: creator.name, email: creator.email, password: creator.password, bio: creator.bio, specialty: creator.specialty, avatar: creator.avatar, isVerified: creator.isVerified });
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingAvatar(true);
+      const url = await uploadImage(file);
+      setForm(prev => ({ ...prev, avatar: url }));
+    } catch (uploadError) {
+      console.error('Avatar upload failed', uploadError);
+    } finally {
+      setUploadingAvatar(false);
+      event.target.value = '';
+    }
+  };
 
   const handleSubmit = () => {
     onUpdate(creator.id, form);
@@ -332,6 +382,21 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
             <select value={form.specialty} onChange={e => setForm({...form, specialty: e.target.value})}>
               {['Indian Cuisine', 'Italian & Mediterranean', 'Japanese Cuisine', 'Mexican & Latin', 'Vegan & Plant-Based', 'Desserts & Baking', 'Seafood', 'BBQ & Grill', 'Chinese Cuisine', 'Thai Cuisine', 'French Cuisine', 'Other'].map(s => <option key={s} value={s}>{s}</option>)}
             </select>
+          </div>
+          <div className="modal__field">
+            <label>Profile Photo</label>
+            <div style={{ display: 'grid', gap: 10 }}>
+              <input type="file" accept="image/*" capture="environment" onChange={handleAvatarUpload} />
+              {uploadingAvatar && <small>Uploading photo...</small>}
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                <img
+                  src={form.avatar}
+                  alt="Avatar preview"
+                  style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(217,92,120,0.2)' }}
+                />
+                <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
+              </div>
+            </div>
           </div>
           <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} /></div>
           <div className="modal__field modal__field--check"><label><input type="checkbox" checked={form.isVerified} onChange={e => setForm({...form, isVerified: e.target.checked})} /> Verified Creator</label></div>
