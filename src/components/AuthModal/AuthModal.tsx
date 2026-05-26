@@ -23,7 +23,10 @@ const GoogleLogo = () => (
   </svg>
 );
 
-const GOOGLE_URL = `${(import.meta as any).env?.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`;
+const backendBase =
+  ((import.meta as any).env?.VITE_BACKEND_URL || (import.meta as any).env?.VITE_API_URL || 'http://localhost:5000')
+    .replace(/\/$/, '');
+const GOOGLE_URL = `${backendBase}/api/auth/google`;
 
 const AuthModal = ({ isOpen, onClose, defaultTab = 'login', message }: AuthModalProps) => {
   const [tab, setTab] = useState<'login' | 'signup'>(defaultTab);

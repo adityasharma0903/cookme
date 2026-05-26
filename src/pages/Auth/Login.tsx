@@ -139,7 +139,12 @@ const Login = () => {
                 className="auth-google-btn"
                 whileHover={{ scale: 1.01, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                 whileTap={{ scale: 0.99 }}
-                onClick={() => { window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`; }}
+                onClick={() => {
+                  const backendBase =
+                    (import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000')
+                      .replace(/\/$/, '');
+                  window.location.href = `${backendBase}/api/auth/google`;
+                }}
               >
                 {/* Official Google Logo SVG */}
                 <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -205,7 +210,12 @@ const Login = () => {
                 className="auth-google-btn"
                 whileHover={{ scale: 1.01, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                 whileTap={{ scale: 0.99 }}
-                onClick={() => { window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`; }}
+                onClick={() => {
+                  const backendBase =
+                    (import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000')
+                      .replace(/\/$/, '');
+                  window.location.href = `${backendBase}/api/auth/google`;
+                }}
               >
                 <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
