@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000/api' });
+const backendBase = (import.meta.env.VITE_BACKEND_URL as string) || 'http://localhost:5000';
+const API = axios.create({ baseURL: `${backendBase.replace(/\/$/, '')}/api` });
 
 API.interceptors.request.use((req) => {
   const user = localStorage.getItem('cookme_user');
