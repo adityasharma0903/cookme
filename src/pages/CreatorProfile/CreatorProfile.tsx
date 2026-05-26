@@ -177,20 +177,7 @@ const CreatorProfile = () => {
               </div>
             )}
 
-            {/* Follow button — mobile only */}
-            {!isOwnProfile && (
-              <div className="cp-ig-actions cp-ig-actions--mobile">
-                <motion.button
-                  className={`cp-ig-follow-btn ${following ? 'following' : ''}`}
-                  onClick={handleFollow}
-                  disabled={isFollowLoading}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {isFollowLoading ? '...' : following ? 'Following' : 'Follow'}
-                </motion.button>
-              </div>
-            )}
+
           </div>
 
         </div>

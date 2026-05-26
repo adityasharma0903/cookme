@@ -67,11 +67,7 @@ const Recipes = () => {
           <motion.p className="recipes-hero__desc" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.6 }}>
             Explore thousands of recipes from world-class creators
           </motion.p>
-          <motion.div className="recipes-hero__search" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <Search size={20} />
-            <input type="text" placeholder="Search recipes, ingredients, cuisines..." value={search} onChange={e => setSearch(e.target.value)} />
-            {search && <button onClick={() => setSearch('')}><X size={18} /></button>}
-          </motion.div>
+
         </div>
       </section>
 

@@ -210,7 +210,16 @@
   background: rgba(200, 90, 99, 0.1);
 }
 
+/* Mobile line break — desktop pe hidden, mobile pe visible */
+.mobile-break {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .mobile-break {
+    display: block;
+  }
+
   .creators-all__grid {
     grid-template-columns: 1fr;
     max-width: 400px;

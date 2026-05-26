@@ -6,7 +6,7 @@ const contactMethods = [
   {
     icon: <Mail size={18} />,
     title: 'Email Us',
-    subtitle: 'hello@cookwithkaju.com',
+    subtitle: 'supportzaikarecipes@gmail.com',
     href: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Zaika%20Recipes&body=Hello%20Zaika%20Recipes',
   },
 ];

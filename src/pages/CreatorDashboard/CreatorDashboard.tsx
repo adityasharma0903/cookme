@@ -48,7 +48,7 @@ const CreatorDashboard = () => {
     <div className="creator-dash">
       <aside className="creator-sidebar">
         <a className="admin-sidebar__logo" href="https://zaikarecipes.app">
-          <div className="admin-sidebar__logo-icon"><ChefHat size={22} /></div>
+          <div className="admin-sidebar__logo-icon"><img src="/logo.png" alt="Zaika Recipes" style={{ height: 28, width: 'auto', objectFit: 'contain' }} /></div>
           <span>zaikarecipes.app</span>
         </a>
         <div className="creator-sidebar__role">

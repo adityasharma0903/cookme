@@ -20,7 +20,7 @@ const Creators = () => {
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
             <span className="creators-hero__tag"><Crown size={14} /> Creator Spotlight</span>
-            <h1 className="creators-hero__title">Meet Our <span className="text-accent">Top Creators</span></h1>
+            <h1 className="creators-hero__title">Meet Our <br className="mobile-break" /><span className="text-accent">Top Creators</span></h1>
             <p className="creators-hero__desc">Talented chefs, food artists, and culinary brands sharing their best recipes with the world</p>
           </motion.div>
         </div>

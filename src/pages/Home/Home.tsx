@@ -6,6 +6,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { categories } from '../../data/categories';
 import { useAuth } from '../../context/AuthContext';
 import './Home.css';
+import { recipes } from '../../data/recipes';
 
 const partners = ['Weelicious', 'SELF', 'Food.co', 'FoodCity', 'Yummly', 'Tasty', 'BonAppétit', 'Epicurious'];
 
@@ -441,7 +442,7 @@ const SectionHeader = ({ tag, title, desc, link, light = false }: { tag: string;
       <h2 className="section-header__title">{title}</h2>
       <p className="section-header__desc">{desc}</p>
     </div>
-    <Link to={link} className="section-header__link">
+    <Link to={'/recipes'} className="section-header__link">
       View All <ChevronRight size={16} />
     </Link>
   </div>
