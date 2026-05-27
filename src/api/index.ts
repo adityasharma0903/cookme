@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-const backendBase = (import.meta.env.VITE_BACKEND_URL as string) || 'http://localhost:5000';
-const API = axios.create({ baseURL: `${backendBase.replace(/\/$/, '')}/api` });
+const getBackendBaseUrl = () => {
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
+
+  if (isLocalHost) return 'http://localhost:5000';
+
+  return ((import.meta.env.VITE_BACKEND_URL as string) || 'http://localhost:5000').replace(/\/$/, '');
+};
+
+const API = axios.create({ baseURL: `${getBackendBaseUrl()}/api` });
 
 API.interceptors.request.use((req) => {
   const user = localStorage.getItem('cookme_user');
@@ -31,5 +39,7 @@ export const uploadImage = async (file: File) => {
   });
   return res.data.imageUrl;
 };
+
+export { getBackendBaseUrl };
 
 export default API;

@@ -13,7 +13,7 @@ export interface CreatorAccount {
   following: string[];
   isVerified: boolean;
   status: 'Active' | 'Suspended';
-  socialLinks: { instagram?: string; youtube?: string; twitter?: string };
+  socialLinks: { instagram?: string; youtube?: string; twitter?: string; facebook?: string; threads?: string };
   createdAt: string;
   totalLikes?: number;
   totalViews?: number;
@@ -132,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshUserProfile = async () => {
     if (!user) return;
     try {
-      const { data } = await API.get('/users/me');
+      const { data } = await API.get('/auth/me');
       if (data._id && !data.id) data.id = data._id;
       const updated = { ...user, ...data };
       setUser(updated);
@@ -228,8 +228,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await API.put(`/users/creators/${user.id}`, data);
       await fetchData();
-      if (data.name || data.avatar) {
-        const updated = { ...user, ...(data.name && { name: data.name }), ...(data.avatar && { avatar: data.avatar }) };
+      if (data.name || data.avatar || data.socialLinks) {
+        const updated = {
+          ...user,
+          ...(data.name && { name: data.name }),
+          ...(data.avatar && { avatar: data.avatar }),
+          ...(data.socialLinks && { socialLinks: { ...(user as any).socialLinks, ...data.socialLinks } }),
+        };
         setUser(updated);
         localStorage.setItem('cookme_user', JSON.stringify(updated));
       }
@@ -280,6 +285,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const { data } = await API.post(`/users/${userId}/follow`);
       await fetchData();
+      setUser(prev => {
+        if (!prev) return prev;
+        const currentFollowing = prev.following || [];
+        const nextFollowing = data.isFollowing
+          ? Array.from(new Set([...currentFollowing, userId]))
+          : currentFollowing.filter((id: any) => id.toString() !== userId.toString());
+        const updated = { ...prev, following: nextFollowing };
+        localStorage.setItem('cookme_user', JSON.stringify(updated));
+        return updated;
+      });
       await refreshUserProfile();
       return data;
     } catch (err) {

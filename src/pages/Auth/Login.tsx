@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, ChefHat, Eye, EyeOff, ArrowRight, ArrowLeft, Shield, Sparkles, AlertCircle, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { getBackendBaseUrl } from '../../api';
 import './Auth.css';
 
 const Login = () => {
@@ -140,10 +141,7 @@ const Login = () => {
                 whileHover={{ scale: 1.01, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                 whileTap={{ scale: 0.99 }}
                 onClick={() => {
-                  const backendBase =
-                    (import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000')
-                      .replace(/\/$/, '');
-                  window.location.href = `${backendBase}/api/auth/google`;
+                  window.location.href = `${getBackendBaseUrl()}/api/auth/google`;
                 }}
               >
                 {/* Official Google Logo SVG */}

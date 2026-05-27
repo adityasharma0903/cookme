@@ -19,6 +19,30 @@ const allowedCategories = [
   'Desserts & Sweet Treats',
 ];
 
+const socialPlatformOptions = [
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'twitter', label: 'Twitter / X' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'threads', label: 'Threads' },
+] as const;
+
+const buildSocialUrl = (platform: string, value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+
+  const username = trimmed.replace(/^@/, '');
+  const prefixes: Record<string, string> = {
+    instagram: 'https://www.instagram.com/',
+    youtube: 'https://www.youtube.com/@',
+    twitter: 'https://x.com/',
+    facebook: 'https://www.facebook.com/',
+    threads: 'https://www.threads.net/@',
+  };
+  return `${prefixes[platform] || ''}${username}`;
+};
+
 const CreatorDashboard = () => {
   const { user, logout, getMyRecipes, addRecipe, updateRecipe, deleteRecipe, updateProfile, changePassword, getCreatorById } = useAuth();
   const navigate = useNavigate();
@@ -213,8 +237,45 @@ const CreatorDashboard = () => {
 
 // Profile Tab
 const ProfileTab = ({ creator, onUpdate }: any) => {
-  const [form, setForm] = useState({ name: creator.name, bio: creator.bio, specialty: creator.specialty, avatar: creator.avatar, socialLinks: creator.socialLinks || {} });
+  const [form, setForm] = useState({
+    name: creator.name,
+    bio: creator.bio,
+    specialty: creator.specialty,
+    avatar: creator.avatar,
+    socialLinks: {
+      instagram: '',
+      youtube: '',
+      twitter: '',
+      facebook: '',
+      threads: '',
+      ...(creator.socialLinks || {}),
+    }
+  });
   const [saved, setSaved] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState<typeof socialPlatformOptions[number]['value']>('twitter');
+  const [linkInput, setLinkInput] = useState('');
+
+  const handleAddLink = () => {
+    if (!linkInput.trim()) return;
+    setForm({
+      ...form,
+      socialLinks: {
+        ...form.socialLinks,
+        [selectedPlatform]: buildSocialUrl(selectedPlatform, linkInput),
+      },
+    });
+    setLinkInput('');
+  };
+
+  const removeLink = (platform: string) => {
+    setForm({
+      ...form,
+      socialLinks: {
+        ...form.socialLinks,
+        [platform]: '',
+      },
+    });
+  };
 
   const handleSave = () => {
     onUpdate(form);
@@ -244,8 +305,29 @@ const ProfileTab = ({ creator, onUpdate }: any) => {
           </select>
         </div>
         <div className="modal__field"><label>Avatar URL</label><input value={form.avatar} onChange={e => setForm({ ...form, avatar: e.target.value })} /></div>
-        <div className="modal__field"><label>Instagram Handle</label><input value={form.socialLinks.instagram || ''} onChange={e => setForm({ ...form, socialLinks: { ...form.socialLinks, instagram: e.target.value } })} placeholder="@username" /></div>
-        <div className="modal__field"><label>YouTube Channel</label><input value={form.socialLinks.youtube || ''} onChange={e => setForm({ ...form, socialLinks: { ...form.socialLinks, youtube: e.target.value } })} placeholder="Channel name" /></div>
+        <div className="modal__field">
+          <label>Social Link</label>
+          <div style={{ display: 'grid', gap: 10 }}>
+            <select value={selectedPlatform} onChange={e => setSelectedPlatform(e.target.value as any)}>
+              {socialPlatformOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </select>
+            <input value={linkInput} onChange={e => setLinkInput(e.target.value)} placeholder="username or full URL" />
+            <button type="button" className="admin-create-btn" onClick={handleAddLink} style={{ marginTop: 0 }}>
+              <Plus size={14} /> Add / Update Link
+            </button>
+          </div>
+        </div>
+        <div className="modal__field">
+          <label>Saved Links</label>
+          <div className="modal__tags-list">
+            {socialPlatformOptions.map(option => form.socialLinks[option.value] ? (
+              <span key={option.value} className="modal__tag">
+                {option.label}
+                <button type="button" onClick={() => removeLink(option.value)}><X size={10} /></button>
+              </span>
+            ) : null)}
+          </div>
+        </div>
         <motion.button className="admin-create-btn" onClick={handleSave} whileHover={{ scale: 1.02 }} style={{ marginTop: 8 }}>
           {saved ? <><Check size={16} /> Saved!</> : <><Check size={16} /> Save Profile</>}
         </motion.button>
@@ -351,7 +433,7 @@ const RecipeFormModal = ({ editing, creatorId, onClose, onAdd, onUpdate }: any) 
             <div className="modal__field">
               <label>Image</label>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexDirection: 'column' }}>
-                <input type="file" accept="image/*" capture="environment" onChange={handleFileUpload} />
+                <input type="file" accept="image/*" onChange={handleFileUpload} />
                 {uploading ? <small>Uploading image...</small> : (form.image && <img src={form.image} alt="preview" style={{ width: 120, height: 80, objectFit: 'cover', borderRadius: 6 }} />)}
                 <input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })} placeholder="or paste an image URL" />
               </div>

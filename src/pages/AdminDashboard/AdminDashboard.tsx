@@ -12,6 +12,30 @@ import './AdminDashboard.css';
 
 type Tab = 'overview' | 'creators' | 'recipes' | 'analytics';
 
+const socialPlatformOptions = [
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'twitter', label: 'Twitter / X' },
+  { value: 'facebook', label: 'Facebook' },
+  { value: 'threads', label: 'Threads' },
+] as const;
+
+const buildSocialUrl = (platform: string, value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+
+  const username = trimmed.replace(/^@/, '');
+  const prefixes: Record<string, string> = {
+    instagram: 'https://www.instagram.com/',
+    youtube: 'https://www.youtube.com/@',
+    twitter: 'https://x.com/',
+    facebook: 'https://www.facebook.com/',
+    threads: 'https://www.threads.net/@',
+  };
+  return `${prefixes[platform] || ''}${username}`;
+};
+
 const AdminDashboard = () => {
   const { user, logout, getCreators, createCreator, updateCreator, deleteCreator, getAllCreatorRecipes } = useAuth();
   const navigate = useNavigate();
@@ -264,9 +288,42 @@ const AdminDashboard = () => {
 };
 
 const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCreate: any }) => {
-  const [form, setForm] = useState({ username: '', name: '', email: '', password: '', bio: '', specialty: 'Indian Cuisine', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face' });
+  const [form, setForm] = useState({
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+    bio: '',
+    specialty: 'Indian Cuisine',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face',
+    socialLinks: { instagram: '', youtube: '', twitter: '', facebook: '', threads: '' },
+  });
   const [error, setError] = useState('');
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState<typeof socialPlatformOptions[number]['value']>('twitter');
+  const [linkInput, setLinkInput] = useState('');
+
+  const handleAddLink = () => {
+    if (!linkInput.trim()) return;
+    setForm(prev => ({
+      ...prev,
+      socialLinks: {
+        ...prev.socialLinks,
+        [selectedPlatform]: buildSocialUrl(selectedPlatform, linkInput),
+      },
+    }));
+    setLinkInput('');
+  };
+
+  const removeLink = (platform: string) => {
+    setForm(prev => ({
+      ...prev,
+      socialLinks: {
+        ...prev.socialLinks,
+        [platform]: '',
+      },
+    }));
+  };
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -289,7 +346,7 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
     if (!form.name || !form.email || !form.password) { setError('Name, email, and password are required.'); return; }
     if (form.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
     try {
-      await onCreate({ ...form, status: 'active' as const, isVerified: false, socialLinks: {} });
+      await onCreate({ ...form, status: 'active' as const, isVerified: false });
       onClose();
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Failed to create creator');
@@ -318,7 +375,7 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
           <div className="modal__field">
             <label>Profile Photo</label>
             <div style={{ display: 'grid', gap: 10 }}>
-              <input type="file" accept="image/*" capture="environment" onChange={handleAvatarUpload} />
+              <input type="file" accept="image/*" onChange={handleAvatarUpload} />
               {uploadingAvatar && <small>Uploading photo...</small>}
               <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                 <img
@@ -328,6 +385,29 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
                 />
                 <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
               </div>
+            </div>
+          </div>
+          <div className="modal__field">
+            <label>Social Link</label>
+            <div style={{ display: 'grid', gap: 10 }}>
+              <select value={selectedPlatform} onChange={e => setSelectedPlatform(e.target.value as any)}>
+                {socialPlatformOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+              <input value={linkInput} onChange={e => setLinkInput(e.target.value)} placeholder="username or full URL" />
+              <button type="button" className="admin-create-btn" onClick={handleAddLink} style={{ marginTop: 0 }}>
+                <Plus size={14} /> Add / Update Link
+              </button>
+            </div>
+          </div>
+          <div className="modal__field">
+            <label>Saved Links</label>
+            <div className="modal__tags-list">
+              {socialPlatformOptions.map(option => form.socialLinks[option.value] ? (
+                <span key={option.value} className="modal__tag">
+                  {option.label}
+                  <button type="button" onClick={() => removeLink(option.value)}><X size={10} /></button>
+                </span>
+              ) : null)}
             </div>
           </div>
         </div>
@@ -343,8 +423,41 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
 };
 
 const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAccount; onClose: () => void; onUpdate: any }) => {
-  const [form, setForm] = useState({ name: creator.name, email: creator.email, password: creator.password, bio: creator.bio, specialty: creator.specialty, avatar: creator.avatar, isVerified: creator.isVerified });
+  const [form, setForm] = useState({
+    name: creator.name,
+    email: creator.email,
+    password: creator.password,
+    bio: creator.bio,
+    specialty: creator.specialty,
+    avatar: creator.avatar,
+    isVerified: creator.isVerified,
+    socialLinks: { instagram: '', youtube: '', twitter: '', facebook: '', threads: '', ...(creator.socialLinks || {}) },
+  });
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState<typeof socialPlatformOptions[number]['value']>('twitter');
+  const [linkInput, setLinkInput] = useState('');
+
+  const handleAddLink = () => {
+    if (!linkInput.trim()) return;
+    setForm(prev => ({
+      ...prev,
+      socialLinks: {
+        ...prev.socialLinks,
+        [selectedPlatform]: buildSocialUrl(selectedPlatform, linkInput),
+      },
+    }));
+    setLinkInput('');
+  };
+
+  const removeLink = (platform: string) => {
+    setForm(prev => ({
+      ...prev,
+      socialLinks: {
+        ...prev.socialLinks,
+        [platform]: '',
+      },
+    }));
+  };
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -386,7 +499,7 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
           <div className="modal__field">
             <label>Profile Photo</label>
             <div style={{ display: 'grid', gap: 10 }}>
-              <input type="file" accept="image/*" capture="environment" onChange={handleAvatarUpload} />
+              <input type="file" accept="image/*" onChange={handleAvatarUpload} />
               {uploadingAvatar && <small>Uploading photo...</small>}
               <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                 <img
@@ -396,6 +509,29 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
                 />
                 <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
               </div>
+            </div>
+          </div>
+          <div className="modal__field">
+            <label>Social Link</label>
+            <div style={{ display: 'grid', gap: 10 }}>
+              <select value={selectedPlatform} onChange={e => setSelectedPlatform(e.target.value as any)}>
+                {socialPlatformOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+              </select>
+              <input value={linkInput} onChange={e => setLinkInput(e.target.value)} placeholder="username or full URL" />
+              <button type="button" className="admin-create-btn" onClick={handleAddLink} style={{ marginTop: 0 }}>
+                <Plus size={14} /> Add / Update Link
+              </button>
+            </div>
+          </div>
+          <div className="modal__field">
+            <label>Saved Links</label>
+            <div className="modal__tags-list">
+              {socialPlatformOptions.map(option => form.socialLinks[option.value] ? (
+                <span key={option.value} className="modal__tag">
+                  {option.label}
+                  <button type="button" onClick={() => removeLink(option.value)}><X size={10} /></button>
+                </span>
+              ) : null)}
             </div>
           </div>
           <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} /></div>

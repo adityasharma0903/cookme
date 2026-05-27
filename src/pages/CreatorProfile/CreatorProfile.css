@@ -90,6 +90,10 @@
 .cp-ig-actions--desktop { display: flex; }
 .cp-ig-actions--mobile  { display: none; }
 
+.cp-ig-actions--desktop {
+  align-self: flex-start;
+}
+
 /* ── Row 2: Name / Bio / Socials ─────────────────── */
 .cp-ig-info {
   padding-bottom: 4px;
@@ -115,6 +119,8 @@
   color: #5a3d38;
   margin-bottom: 14px;
   max-width: 500px;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 /* Action Buttons */
@@ -346,7 +352,8 @@
   
   .cp-ig-actions--mobile {
     display: flex;
-    margin-top: 12px;
+    width: 100%;
+    margin-top: 14px;
   }
   
   .cp-ig-actions--mobile .cp-ig-follow-btn {
@@ -354,6 +361,13 @@
     text-align: center;
     padding: 10px;
     font-size: 14px;
+    max-width: none;
+  }
+
+  .cp-ig-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .cp-ig-info { 
@@ -397,4 +411,8 @@
   .cp-ig-stats { gap: 14px; }
   .cp-ig-stat strong { font-size: 15px; }
   .cp-ig-display-name { font-size: 15px; }
+  .cp-ig-actions--mobile .cp-ig-follow-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
 }
