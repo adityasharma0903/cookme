@@ -9,7 +9,7 @@ const ingredientSchema = new mongoose.Schema({
 const stepSchema = new mongoose.Schema({
   number: { type: Number, required: true },
   title: { type: String, required: true },
-  description: { type: String, required: true }
+  description: { type: String, default: '' }
 });
 
 const allowedCategories = [

@@ -1,11 +1,23 @@
 const User = require('../models/User');
 
+const normalizeSocialLinks = (socialLinks = {}) => ({
+  instagram: '',
+  youtube: '',
+  twitter: '',
+  facebook: '',
+  threads: '',
+  ...socialLinks,
+});
+
 // @desc    Get all creators
 // @route   GET /api/users/creators
 // @access  Public
 const getCreators = async (req, res) => {
   const creators = await User.find({ role: 'creator' }).select('-password');
-  res.json(creators);
+  res.json(creators.map(creator => ({
+    ...creator.toObject(),
+    socialLinks: normalizeSocialLinks(creator.socialLinks),
+  })));
 };
 
 // @desc    Get creator by ID
@@ -14,7 +26,10 @@ const getCreators = async (req, res) => {
 const getCreatorById = async (req, res) => {
   const creator = await User.findById(req.params.id).select('-password');
   if (creator && creator.role === 'creator') {
-    res.json(creator);
+    res.json({
+      ...creator.toObject(),
+      socialLinks: normalizeSocialLinks(creator.socialLinks),
+    });
   } else {
     res.status(404).json({ message: 'Creator not found' });
   }
@@ -24,7 +39,7 @@ const getCreatorById = async (req, res) => {
 // @route   POST /api/users/creators
 // @access  Private/Admin
 const createCreator = async (req, res) => {
-  const { name, email, password, specialty, bio, avatar, username } = req.body;
+  const { name, email, password, specialty, bio, avatar, username, socialLinks } = req.body;
   // Check email or username uniqueness
   const userExists = await User.findOne({ $or: [ { email }, { username } ] });
 
@@ -33,7 +48,15 @@ const createCreator = async (req, res) => {
   }
 
   const user = await User.create({
-    name, email, password, username, role: 'creator', specialty, bio, avatar
+    name,
+    email,
+    password,
+    username,
+    role: 'creator',
+    specialty,
+    bio,
+    avatar,
+    socialLinks: normalizeSocialLinks(socialLinks),
   });
 
   if (user) {
@@ -62,7 +85,10 @@ const updateCreator = async (req, res) => {
       }
       user.username = req.body.username;
     }
-    user.socialLinks = req.body.socialLinks || user.socialLinks;
+    user.socialLinks = normalizeSocialLinks({
+      ...(user.socialLinks?.toObject?.() || user.socialLinks || {}),
+      ...(req.body.socialLinks || {}),
+    });
     if (req.user.role === 'admin') {
       user.isVerified = req.body.isVerified !== undefined ? req.body.isVerified : user.isVerified;
       user.status = req.body.status || user.status;

@@ -11,6 +11,14 @@ const allowedCategories = [
 
 const validateCategory = (category) => allowedCategories.includes(category);
 
+const normalizeSteps = (steps = []) => steps.map((step, index) => ({
+  number: step.number || index + 1,
+  title: step.title || '',
+  description: step.description || '',
+  duration: step.duration,
+  image: step.image,
+}));
+
 // @desc    Get all recipes
 // @route   GET /api/recipes
 // @access  Public
@@ -38,36 +46,47 @@ const getRecipeById = async (req, res) => {
 // @route   POST /api/recipes
 // @access  Private/Creator
 const createRecipe = async (req, res) => {
-  if (req.body.category && !validateCategory(req.body.category)) {
-    return res.status(400).json({ message: 'Invalid category' });
-  }
+  try {
+    if (req.body.category && !validateCategory(req.body.category)) {
+      return res.status(400).json({ message: 'Invalid category' });
+    }
 
-  const recipe = new Recipe({
-    creator: req.user._id,
-    ...req.body
-  });
-  const createdRecipe = await recipe.save();
-  res.status(201).json(createdRecipe);
+    const recipe = new Recipe({
+      creator: req.user._id,
+      ...req.body,
+      steps: normalizeSteps(req.body.steps),
+    });
+    const createdRecipe = await recipe.save();
+    res.status(201).json(createdRecipe);
+  } catch (error) {
+    console.error('Create recipe error:', error);
+    res.status(400).json({ message: error.message || 'Failed to create recipe' });
+  }
 };
 
 // @desc    Update a recipe
 // @route   PUT /api/recipes/:id
 // @access  Private/Creator
 const updateRecipe = async (req, res) => {
-  const recipe = await Recipe.findById(req.params.id);
+  try {
+    const recipe = await Recipe.findById(req.params.id);
 
-  if (recipe) {
-    if (recipe.creator.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-      return res.status(401).json({ message: 'Not authorized to edit this recipe' });
+    if (recipe) {
+      if (recipe.creator.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+        return res.status(401).json({ message: 'Not authorized to edit this recipe' });
+      }
+      if (req.body.category && !validateCategory(req.body.category)) {
+        return res.status(400).json({ message: 'Invalid category' });
+      }
+      Object.assign(recipe, { ...req.body, steps: normalizeSteps(req.body.steps || recipe.steps) });
+      const updatedRecipe = await recipe.save();
+      res.json(updatedRecipe);
+    } else {
+      res.status(404).json({ message: 'Recipe not found' });
     }
-    if (req.body.category && !validateCategory(req.body.category)) {
-      return res.status(400).json({ message: 'Invalid category' });
-    }
-    Object.assign(recipe, req.body);
-    const updatedRecipe = await recipe.save();
-    res.json(updatedRecipe);
-  } else {
-    res.status(404).json({ message: 'Recipe not found' });
+  } catch (error) {
+    console.error('Update recipe error:', error);
+    res.status(400).json({ message: error.message || 'Failed to update recipe' });
   }
 };
 

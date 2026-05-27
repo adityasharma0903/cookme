@@ -17,7 +17,9 @@ const userSchema = new mongoose.Schema({
   socialLinks: {
     instagram: { type: String, default: '' },
     youtube: { type: String, default: '' },
-    twitter: { type: String, default: '' }
+    twitter: { type: String, default: '' },
+    facebook: { type: String, default: '' },
+    threads: { type: String, default: '' }
   },
   savedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
   likedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
