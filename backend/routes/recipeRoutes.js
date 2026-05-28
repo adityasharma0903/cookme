@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, toggleLike, toggleSave, getComments, addComment } = require('../controllers/recipeController');
+const { getRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, toggleLike, toggleSave, getComments, addComment, shareRecipe } = require('../controllers/recipeController');
 const { protect, creator } = require('../middlewares/authMiddleware');
 
 router.route('/')
@@ -11,6 +11,9 @@ router.route('/:id')
   .get(getRecipeById)
   .put(protect, creator, updateRecipe)
   .delete(protect, creator, deleteRecipe);
+
+// Share route (Link Preview generator)
+router.get('/:id/share', shareRecipe);
 
 // Like & Save (any logged-in user)
 router.post('/:id/like', protect, toggleLike);

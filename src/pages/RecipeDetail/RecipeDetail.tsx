@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Bookmark, Share2, Clock, Users, Flame, BadgeCheck, MessageCircle, Eye, ArrowLeft, Printer, Send } from 'lucide-react';
 import { useAuth, RecipeComment } from '../../context/AuthContext';
+import { getBackendBaseUrl } from '../../api';
 import AuthModal from '../../components/AuthModal/AuthModal';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import './RecipeDetail.css';
@@ -96,11 +97,13 @@ const RecipeDetail = () => {
   };
 
   const handleShare = async () => {
-    const url = window.location.href;
+    // We route the share link through the backend to generate HTML with Open Graph image tags
+    const shareUrl = `${getBackendBaseUrl()}/api/recipes/${recipe.id}/share?frontend=${encodeURIComponent(window.location.origin)}`;
+    
     const shareData: ShareData = { 
       title: recipe.title, 
       text: recipe.title, 
-      url 
+      url: shareUrl
     };
 
     if (navigator.share) {
@@ -110,7 +113,7 @@ const RecipeDetail = () => {
         console.log('Share failed or was cancelled:', err);
       }
     } else {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(shareUrl);
       alert('Recipe link copied to clipboard!');
     }
   };
