@@ -186,58 +186,5 @@ const addComment = async (req, res) => {
   res.status(201).json(populated);
 };
 
-// @desc    Generate shareable link preview HTML
-// @route   GET /api/recipes/:id/share
-// @access  Public
-const shareRecipe = async (req, res) => {
-  try {
-    const recipe = await Recipe.findById(req.params.id);
-    if (!recipe) return res.status(404).send('Recipe not found');
-
-    const frontendUrl = req.query.frontend || 'https://www.zaikarecipes.app';
-    const recipeUrl = `${frontendUrl}/recipe/${recipe._id}`;
-
-    const html = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${recipe.title} - Zaika Recipes</title>
-        
-        <!-- Open Graph / Facebook / WhatsApp -->
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="${recipeUrl}">
-        <meta property="og:title" content="${recipe.title}">
-        <meta property="og:description" content="Check out this delicious recipe for ${recipe.title} on Zaika Recipes!">
-        <meta property="og:image" content="${recipe.image}">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630">
-
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="${recipeUrl}">
-        <meta property="twitter:title" content="${recipe.title}">
-        <meta property="twitter:description" content="Check out this delicious recipe for ${recipe.title} on Zaika Recipes!">
-        <meta property="twitter:image" content="${recipe.image}">
-
-        <!-- Redirect instantly to the frontend app -->
-        <meta http-equiv="refresh" content="0;url=${recipeUrl}">
-      </head>
-      <body>
-        <p>Redirecting to recipe...</p>
-        <script>
-          window.location.href = "${recipeUrl}";
-        </script>
-      </body>
-      </html>
-    `;
-    res.send(html);
-  } catch (error) {
-    console.error('Share recipe error:', error);
-    res.status(500).send('Server Error');
-  }
-};
-
-module.exports = { getRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, toggleLike, toggleSave, getComments, addComment, shareRecipe };
+module.exports = { getRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, toggleLike, toggleSave, getComments, addComment };
 

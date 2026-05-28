@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Bookmark, Share2, Clock, Users, Flame, BadgeCheck, MessageCircle, Eye, ArrowLeft, Printer, Send } from 'lucide-react';
 import { useAuth, RecipeComment } from '../../context/AuthContext';
-import { getBackendBaseUrl } from '../../api';
 import AuthModal from '../../components/AuthModal/AuthModal';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import './RecipeDetail.css';
@@ -35,33 +34,6 @@ const RecipeDetail = () => {
       setSaveCount(recipe.saves || 0);
       // Fetch comments
       getComments(id).then(setComments);
-
-      // Update meta tags for link previews (WhatsApp, Telegram, etc.)
-      const updateMetaTag = (property: string, content: string) => {
-        let meta = document.querySelector(`meta[property="${property}"]`) || document.querySelector(`meta[name="${property}"]`);
-        if (!meta) {
-          meta = document.createElement('meta');
-          if (property.startsWith('og:')) {
-            meta.setAttribute('property', property);
-          } else {
-            meta.setAttribute('name', property);
-          }
-          document.head.appendChild(meta);
-        }
-        meta.setAttribute('content', content);
-      };
-
-      document.title = `${recipe.title} - Zaika Recipes`;
-      updateMetaTag('og:title', recipe.title);
-      updateMetaTag('og:description', `Check out this delicious recipe for ${recipe.title}!`);
-      updateMetaTag('og:image', recipe.image);
-      updateMetaTag('og:url', window.location.href);
-      updateMetaTag('twitter:card', 'summary_large_image');
-      
-      return () => {
-        // Cleanup title
-        document.title = 'Zaika Recipes — Recipe Creator Marketplace & Community';
-      };
     }
   }, [recipe, id, user]);
 
@@ -97,23 +69,33 @@ const RecipeDetail = () => {
   };
 
   const handleShare = async () => {
-    // We route the share link through the backend to generate HTML with Open Graph image tags
-    const shareUrl = `${getBackendBaseUrl()}/api/recipes/${recipe.id}/share?frontend=${encodeURIComponent(window.location.origin)}`;
-    
+    const url = window.location.href;
     const shareData: ShareData = { 
       title: recipe.title, 
       text: recipe.title, 
-      url: shareUrl
+      url 
     };
 
     if (navigator.share) {
       try {
+        // Attempt to attach the image as a file for native sharing
+        try {
+          const response = await fetch(recipe.image);
+          const blob = await response.blob();
+          const file = new File([blob], 'recipe.jpg', { type: blob.type || 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            shareData.files = [file];
+          }
+        } catch (imgError) {
+          console.log('Could not attach image to share:', imgError);
+        }
+        
         await navigator.share(shareData);
       } catch (err) {
         console.log('Share failed or was cancelled:', err);
       }
     } else {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(url);
       alert('Recipe link copied to clipboard!');
     }
   };
