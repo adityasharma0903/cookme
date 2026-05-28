@@ -124,6 +124,8 @@
   font-size: 15px;
   transition: transform var(--transition-fast);
   text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
 .contact-form__submit:hover {
@@ -175,6 +177,25 @@
 .contact-form textarea {
   resize: vertical;
   min-height: 160px;
+}
+
+.contact-form__status {
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-form__status--success {
+  background: rgba(76, 175, 80, 0.12);
+  color: #2f7d32;
+  border: 1px solid rgba(76, 175, 80, 0.25);
+}
+
+.contact-form__status--error {
+  background: rgba(217, 92, 120, 0.1);
+  color: #a52f4f;
+  border: 1px solid rgba(217, 92, 120, 0.22);
 }
 
 .contact-form__message {

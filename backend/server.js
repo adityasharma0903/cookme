@@ -23,6 +23,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/recipes', require('./routes/recipeRoutes'));
 app.use('/api/reels', require('./routes/reelRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

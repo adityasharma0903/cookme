@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Send, Sparkles } from 'lucide-react';
+import API from '../../api';
 import './Contact.css';
 
 const contactMethods = [
@@ -7,11 +9,81 @@ const contactMethods = [
     icon: <Mail size={18} />,
     title: 'Email Us',
     subtitle: 'supportzaikarecipes@gmail.com',
-    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Zaika%20Recipes&body=Hello%20Zaika%20Recipes',
+    href: 'mailto:supportzaikarecipes@gmail.com?subject=Contact%20Zaika%20Recipes',
   },
 ];
 
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setError('Name, email, and message are required.');
+      return;
+    }
+
+    try {
+      setIsSending(true);
+
+      // First, submit to FormSubmit from the browser so emails are delivered by FormSubmit
+      const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent('supportzaikarecipes@gmail.com')}`;
+      const params = new URLSearchParams();
+      params.append('name', name.trim());
+      params.append('_replyto', email.trim());
+      params.append('_subject', subject.trim() || 'New contact message from Zaika Recipes');
+      params.append('message', message.trim());
+      params.append('_captcha', 'false');
+      params.append('_template', 'table');
+
+      let mailSent = false;
+      let mailResponse: any = {};
+      try {
+        const resp = await fetch(formSubmitUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+          body: params.toString(),
+        });
+        const json = await resp.json().catch(() => null);
+        mailSent = resp.ok && !(json && json.success === 'false');
+        mailResponse = { status: resp.status, ok: resp.ok, body: json };
+      } catch (err: any) {
+        mailSent = false;
+        mailResponse = { error: err?.message || String(err) };
+      }
+
+      // Then save to our backend, telling it we already forwarded to FormSubmit
+      const { data } = await API.post('/contact', {
+        name,
+        email,
+        subject,
+        message,
+        skipFormSubmit: true,
+        formsubmitStatus: mailSent ? 'sent' : 'failed',
+        formsubmitResponse: mailResponse,
+      });
+
+      setSuccess(mailSent ? 'Your message was sent and saved successfully.' : 'Your message was saved. We will reach out soon.');
+      setName('');
+      setEmail('');
+      setSubject('');
+      setMessage('');
+    } catch (submitError: any) {
+      setError(submitError?.response?.data?.message || 'Failed to send message. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <div className="contact-page">
       <section className="contact-hero">
@@ -70,29 +142,31 @@ const Contact = () => {
               <h2>Contact Us</h2>
             </div>
 
-            <div className="contact-form__fields">
+            <form className="contact-form__fields" onSubmit={handleSubmit}>
               <label>
                 Your Name
-                <input type="text" placeholder="Enter your name" />
+                <input type="text" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)} />
               </label>
               <label>
                 Email Address
-                <input type="email" placeholder="Enter your email" />
+                <input type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)} />
+              </label>
+              <label>
+                Subject
+                <input type="text" placeholder="What is this about?" value={subject} onChange={e => setSubject(e.target.value)} />
               </label>
               <label className="contact-form__message">
                 Your Message
-                <textarea rows={6} placeholder="Write your message..." />
+                <textarea rows={6} placeholder="Write your message..." value={message} onChange={e => setMessage(e.target.value)} />
               </label>
-            </div>
 
-            <a
-              className="contact-form__submit"
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@cookwithkaju.com&su=Contact%20Zaika%20Recipes&body=Hello%20Zaika%20Recipes"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Send <Send size={16} />
-            </a>
+              {error && <div className="contact-form__status contact-form__status--error">{error}</div>}
+              {success && <div className="contact-form__status contact-form__status--success">{success}</div>}
+
+              <button className="contact-form__submit" type="submit" disabled={isSending}>
+                {isSending ? 'Sending...' : 'Send'} <Send size={16} />
+              </button>
+            </form>
           </motion.div>
         </div>
       </section>

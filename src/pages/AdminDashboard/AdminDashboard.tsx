@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth, CreatorAccount } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { uploadImage } from '../../api';
+import API, { uploadImage } from '../../api';
 import {
   Shield, Users, BookOpen, TrendingUp, Plus, Edit3, Trash2, Eye, EyeOff,
   LogOut, Search, ChefHat, BarChart3, UserPlus, X, Check, AlertCircle,
@@ -10,7 +10,18 @@ import {
 } from 'lucide-react';
 import './AdminDashboard.css';
 
-type Tab = 'overview' | 'creators' | 'recipes' | 'analytics';
+type Tab = 'overview' | 'creators' | 'recipes' | 'messages' | 'analytics';
+
+type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: 'unread' | 'read';
+  formsubmitStatus: 'pending' | 'sent' | 'failed';
+  createdAt: string;
+};
 
 const socialPlatformOptions = [
   { value: 'instagram', label: 'Instagram' },
@@ -43,6 +54,9 @@ const AdminDashboard = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingCreator, setEditingCreator] = useState<CreatorAccount | null>(null);
   const [search, setSearch] = useState('');
+  const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactError, setContactError] = useState('');
 
   const creators = getCreators();
   const allRecipes = getAllCreatorRecipes();
@@ -62,8 +76,37 @@ const AdminDashboard = () => {
     { key: 'overview', label: 'Overview', icon: <BarChart3 size={18} /> },
     { key: 'creators', label: 'Creators', icon: <Users size={18} /> },
     { key: 'recipes', label: 'Recipes', icon: <BookOpen size={18} /> },
+    { key: 'messages', label: 'Messages', icon: <Mail size={18} /> },
     { key: 'analytics', label: 'Analytics', icon: <TrendingUp size={18} /> },
   ];
+
+  useEffect(() => {
+    if (activeTab !== 'messages') return;
+
+    const loadMessages = async () => {
+      try {
+        setContactLoading(true);
+        setContactError('');
+        const { data } = await API.get('/contact');
+        setContactMessages(data.map((message: any) => ({
+          id: message._id || message.id,
+          name: message.name,
+          email: message.email,
+          subject: message.subject || '',
+          message: message.message,
+          status: message.status || 'unread',
+          formsubmitStatus: message.formsubmitStatus || 'pending',
+          createdAt: message.createdAt,
+        })));
+      } catch (error: any) {
+        setContactError(error?.response?.data?.message || 'Failed to load contact messages.');
+      } finally {
+        setContactLoading(false);
+      }
+    };
+
+    loadMessages();
+  }, [activeTab]);
 
   return (
     <div className="admin-dash">
@@ -109,6 +152,7 @@ const AdminDashboard = () => {
               {activeTab === 'overview' && 'Dashboard Overview'}
               {activeTab === 'creators' && 'Manage Creators'}
               {activeTab === 'recipes' && 'All Recipes'}
+              {activeTab === 'messages' && 'Contact Messages'}
               {activeTab === 'analytics' && 'Platform Analytics'}
             </h1>
             <p className="admin-header__sub">Welcome back, Admin</p>
@@ -161,6 +205,40 @@ const AdminDashboard = () => {
                 </table>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* MESSAGES TAB */}
+        {activeTab === 'messages' && (
+          <div className="admin-recipes-list">
+            {contactLoading && <p>Loading contact messages...</p>}
+            {contactError && <div className="auth-error"><AlertCircle size={14} /> {contactError}</div>}
+            {!contactLoading && !contactError && (
+              <div className="admin-table-wrap">
+                <table className="admin-table">
+                  <thead>
+                    <tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Status</th><th>FormSubmit</th><th>Date</th></tr>
+                  </thead>
+                  <tbody>
+                    {contactMessages.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} style={{ textAlign: 'center', padding: '24px 12px' }}>No contact messages yet.</td>
+                      </tr>
+                    ) : contactMessages.map(message => (
+                      <tr key={message.id}>
+                        <td>{message.name}</td>
+                        <td>{message.email}</td>
+                        <td>{message.subject || '-'}</td>
+                        <td style={{ maxWidth: 340 }}>{message.message}</td>
+                        <td><span className={`admin-status admin-status--${message.status === 'read' ? 'active' : 'suspended'}`}>{message.status}</span></td>
+                        <td>{message.formsubmitStatus}</td>
+                        <td>{new Date(message.createdAt).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
