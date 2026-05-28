@@ -55,8 +55,8 @@ const Footer = () => {
           <div className="footer__bottom">
             <p>© 2026 Zaika Recipes — All rights reserved.</p>
             <div className="footer__bottom-links">
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms of Service</Link>
+              {/* <Link to="/privacy">Privacy Policy</Link>
+              <Link to="/terms">Terms of Service</Link> */}
             </div>
           </div>
         </div>
