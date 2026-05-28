@@ -36,6 +36,10 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
             </span>
           )}
 
+          <span className={`recipe-card__badge recipe-card__badge--difficulty recipe-card__badge--diff-${recipe.difficulty.toLowerCase()}`}>
+            {recipe.difficulty}
+          </span>
+
           <div className="recipe-card__quick-actions">
             <motion.button className="recipe-card__quick-btn" whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} onClick={(e) => e.preventDefault()}>
               <Heart size={18} />
@@ -54,9 +58,6 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
         <div className="recipe-card__content">
           <div className="recipe-card__meta-row">
             <span className="recipe-card__category">{recipe.category}</span>
-            <span className={`recipe-card__difficulty recipe-card__difficulty--${recipe.difficulty.toLowerCase()}`}>
-              {recipe.difficulty}
-            </span>
           </div>
 
           <h3 className="recipe-card__title">{recipe.title}</h3>
@@ -66,11 +67,11 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
           <div className="recipe-card__creator">
             <img src={recipe.creator.avatar} alt={recipe.creator.name} className="recipe-card__creator-avatar" />
             <div className="recipe-card__creator-info">
+              <span className="recipe-card__creator-label">Recipe Creator</span>
               <span className="recipe-card__creator-name">
                 {recipe.creator.name}
-                {recipe.creator.isVerified && <BadgeCheck size={14} className="recipe-card__verified" />}
+                {recipe.creator.isVerified && <BadgeCheck size={12} className="recipe-card__verified" />}
               </span>
-              <span className="recipe-card__creator-label">Recipe Creator</span>
             </div>
           </div>
 

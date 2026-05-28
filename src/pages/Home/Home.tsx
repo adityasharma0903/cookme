@@ -30,7 +30,7 @@ const Home = () => {
 
   const trendingRecipes = recipes.filter(r => r.isTrending).slice(0, 6);
   const sponsoredRecipes = recipes.filter(r => r.isSponsored).slice(0, 4);
-  const topRecipes = [...recipes].sort((a, b) => b.likes - a.likes).slice(0, 3);
+  const topRecipes = [...recipes].sort((a, b) => b.likes - a.likes).slice(0, 4);
 
   return (
     <div className="home">
@@ -205,6 +205,7 @@ const Home = () => {
             title="Browse by Category"
             desc="Discover recipes across world cuisines and cooking styles"
             link="/categories"
+            hideViewAll
           />
           <div className="categories-scroll">
             {categories.map((cat, i) => (
@@ -224,7 +225,6 @@ const Home = () => {
                   </div>
                   <div className="category-pill__info">
                     <span className="category-pill__name">{cat.name}</span>
-                    <span className="category-pill__count">{cat.recipeCount} recipes</span>
                   </div>
                 </Link>
               </motion.div>
@@ -289,6 +289,9 @@ const Home = () => {
                     </div>
                   </div>
                   {i === 0 && <div className="top-card__crown"><Crown size={24} /></div>}
+                  <div className="top-card__explore-btn">
+                    <span>Explore Now</span>
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -326,7 +329,7 @@ const Home = () => {
                   <p className="creator-card__specialty">{creator.specialty}</p>
                   <div className="creator-card__stats">
                     <div className="creator-card__stat">
-                      <strong>{(creator.followers / 1000).toFixed(1)}k</strong>
+                      <strong>{formatFollowers(creator.followers || 0)}</strong>
                       <span>Followers</span>
                     </div>
                     <div className="creator-card__stat">
@@ -435,16 +438,23 @@ const Home = () => {
 };
 
 // Sub-components
-const SectionHeader = ({ tag, title, desc, link, light = false }: { tag: string; title: string; desc: string; link: string; light?: boolean }) => (
+const formatFollowers = (n: number): string => {
+  if (n < 1000) return String(n);
+  return (n / 1000).toFixed(1) + 'k';
+};
+
+const SectionHeader = ({ tag, title, desc, link, light = false, hideViewAll = false }: { tag: string; title: string; desc: string; link: string; light?: boolean; hideViewAll?: boolean }) => (
   <div className={`section-header ${light ? 'section-header--light' : ''}`}>
     <div className="section-header__left">
       <span className="section-header__tag">{tag}</span>
       <h2 className="section-header__title">{title}</h2>
       <p className="section-header__desc">{desc}</p>
     </div>
-    <Link to={'/recipes'} className="section-header__link">
-      View All <ChevronRight size={16} />
-    </Link>
+    {!hideViewAll && (
+      <Link to={link} className="section-header__link">
+        View All <ChevronRight size={16} />
+      </Link>
+    )}
   </div>
 );
 

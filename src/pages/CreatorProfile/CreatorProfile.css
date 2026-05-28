@@ -12,9 +12,9 @@
 }
 
 .cp-ig-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 4px;
 }
 
 /* ── Row 1: Avatar + Stats ───────────────────────── */
@@ -37,7 +37,7 @@
   object-fit: cover;
   border: 3px solid #F5D5D0;
   display: block;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .cp-ig-verified-badge {
@@ -87,8 +87,13 @@
 }
 
 /* Desktop follow inside stats-wrap */
-.cp-ig-actions--desktop { display: flex; }
-.cp-ig-actions--mobile  { display: none; }
+.cp-ig-actions--desktop {
+  display: flex;
+}
+
+.cp-ig-actions--mobile {
+  display: none;
+}
 
 .cp-ig-actions--desktop {
   align-self: flex-start;
@@ -195,9 +200,11 @@
 }
 
 .cp-ig-feed-section {
-  background: #FDE9EA; /* Light Pink for the lower section */
+  background: #FDE9EA;
+  /* Light Pink for the lower section */
   width: 100%;
-  padding-bottom: 120px; /* Push background further down to avoid beige gaps */
+  padding-bottom: 120px;
+  /* Push background further down to avoid beige gaps */
 }
 
 .cp-ig-feed-section .cp-ig-container {
@@ -214,10 +221,10 @@
 .cp-ig-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 8px;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 6px;
   padding: 0;
-  background: #FDE9EA; /* Match feed background */
+  background: #FDE9EA;
 }
 
 .cp-ig-grid-item {
@@ -225,6 +232,7 @@
   background: #f0f0f0;
   cursor: pointer;
   overflow: hidden;
+  border-radius: 0;
 }
 
 .cp-ig-grid-link {
@@ -318,9 +326,9 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 768px) {
-  .cp-ig-header { 
-    padding: 16px 0 0; 
+@media (max-width: 600px) {
+  .cp-ig-header {
+    padding: 16px 0 0;
   }
 
   .cp-ig-profile {
@@ -328,34 +336,34 @@
     margin-bottom: 12px;
   }
 
-  .cp-ig-avatar { 
-    width: 80px; 
-    height: 80px; 
-  }
-  
-  .cp-ig-verified-badge { 
-    width: 22px; 
-    height: 22px; 
+  .cp-ig-avatar {
+    width: 80px;
+    height: 80px;
   }
 
-  .cp-ig-stats { 
-    gap: 20px; 
-  }
-  
-  .cp-ig-stat strong { 
-    font-size: 17px; 
+  .cp-ig-verified-badge {
+    width: 22px;
+    height: 22px;
   }
 
-  .cp-ig-actions--desktop { 
-    display: none; 
+  .cp-ig-stats {
+    gap: 20px;
   }
-  
+
+  .cp-ig-stat strong {
+    font-size: 17px;
+  }
+
+  .cp-ig-actions--desktop {
+    display: none;
+  }
+
   .cp-ig-actions--mobile {
     display: flex;
     width: 100%;
     margin-top: 14px;
   }
-  
+
   .cp-ig-actions--mobile .cp-ig-follow-btn {
     width: 100%;
     text-align: center;
@@ -370,47 +378,60 @@
     align-items: flex-start;
   }
 
-  .cp-ig-info { 
-    padding: 0 0 4px; 
-  }
-  
-  .cp-ig-display-name { 
-    font-size: 17px; 
-    font-weight: 800; 
-    margin-bottom: 2px; 
-  }
-  
-  .cp-ig-specialty { 
-    font-size: 13px; 
-    margin-bottom: 6px; 
-  }
-  
-  .cp-ig-bio { 
-    font-size: 13px; 
-    line-height: 1.5; 
-    margin-bottom: 10px; 
-  }
-  
-  .cp-ig-socials { 
-    gap: 8px; 
-    margin-bottom: 0; 
+  .cp-ig-info {
+    padding: 0 0 4px;
   }
 
-  .cp-ig-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 8px;
+  .cp-ig-display-name {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 2px;
   }
-  
+
+  .cp-ig-specialty {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .cp-ig-bio {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .cp-ig-socials {
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .cp-ig-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 4px;
+  }
+
   .cp-ig-feed {
     padding-top: 20px;
   }
 }
 
 @media (max-width: 400px) {
-  .cp-ig-avatar { width: 68px; height: 68px; }
-  .cp-ig-stats { gap: 14px; }
-  .cp-ig-stat strong { font-size: 15px; }
-  .cp-ig-display-name { font-size: 15px; }
+  .cp-ig-avatar {
+    width: 68px;
+    height: 68px;
+  }
+
+  .cp-ig-stats {
+    gap: 14px;
+  }
+
+  .cp-ig-stat strong {
+    font-size: 15px;
+  }
+
+  .cp-ig-display-name {
+    font-size: 15px;
+  }
+
   .cp-ig-actions--mobile .cp-ig-follow-btn {
     padding: 12px 14px;
     font-size: 13px;

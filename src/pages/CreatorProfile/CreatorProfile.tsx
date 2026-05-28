@@ -249,36 +249,36 @@ const CreatorProfile = () => {
 
           {/* Content Grid */}
           <div className="cp-ig-feed">
-        <div className="cp-ig-grid">
-          {creatorRecipes.map((recipe, i) => (
-            <motion.div
-              key={recipe.id}
-              className="cp-ig-grid-item"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <Link to={`/recipe/${recipe.id}`} className="cp-ig-grid-link">
-                <img src={recipe.image} alt={recipe.title} className="cp-ig-grid-img" />
-                <div className="cp-ig-grid-overlay">
-                  <div className="cp-ig-grid-stats">
-                    <span><Heart size={18} /> {recipe.likes || 0}</span>
-                    <span><MessageCircle size={18} /> {recipe.comments || 0}</span>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-          </div>
-          {creatorRecipes.length === 0 && (
-            <div className="cp-ig-empty">
-              <p>No posts yet</p>
+            <div className="cp-ig-grid">
+              {creatorRecipes.map((recipe, i) => (
+                <motion.div
+                  key={recipe.id}
+                  className="cp-ig-grid-item"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link to={`/recipe/${recipe.id}`} className="cp-ig-grid-link">
+                    <img src={recipe.image} alt={recipe.title} className="cp-ig-grid-img" />
+                    <div className="cp-ig-grid-overlay">
+                      <div className="cp-ig-grid-stats">
+                        <span><Heart size={18} /> {recipe.likes || 0}</span>
+                        <span><MessageCircle size={18} /> {recipe.comments || 0}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
             </div>
-          )}
+            {creatorRecipes.length === 0 && (
+              <div className="cp-ig-empty">
+                <p>No posts yet</p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} message="Please login to follow this creator" />
     </div>
