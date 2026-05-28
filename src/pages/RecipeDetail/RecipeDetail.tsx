@@ -70,12 +70,9 @@ const RecipeDetail = () => {
 
   const handleShare = async () => {
     const url = window.location.href;
-    const ingredientsText = recipe.ingredients.map(i => `${i.amount} ${i.unit} ${i.name}`).join(', ');
-    const shareText = `Check out this recipe for ${recipe.title}!\n\nIngredients: ${ingredientsText}\n\n`;
-    
     const shareData: ShareData = { 
       title: recipe.title, 
-      text: shareText, 
+      text: recipe.title, 
       url 
     };
 
