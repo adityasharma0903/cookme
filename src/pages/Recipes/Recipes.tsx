@@ -55,7 +55,7 @@ const Recipes = () => {
       default: result.sort((a, b) => b.views - a.views);
     }
     return result;
-  }, [search, selectedCategory, selectedDifficulty, sortBy]);
+  }, [recipes, search, selectedCategory, selectedDifficulty, sortBy]);
 
   return (
     <div className="recipes-page">

@@ -108,8 +108,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [creators, setCreators] = useState<CreatorAccount[]>([]);
-  const [recipes, setRecipes] = useState<CreatorRecipe[]>([]);
+  const [creators, setCreators] = useState<CreatorAccount[]>(() => {
+    try {
+      const saved = localStorage.getItem('cookme_creators');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+  const [recipes, setRecipes] = useState<CreatorRecipe[]>(() => {
+    try {
+      const saved = localStorage.getItem('cookme_recipes');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
 
   const fetchData = async () => {
     try {
@@ -122,8 +136,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (item.creator && item.creator._id) item.creator.id = item.creator._id;
         return item;
       };
-      setCreators(creatorsRes.data.map(mapId));
-      setRecipes(recipesRes.data.map(mapId));
+      const fetchedCreators = creatorsRes.data.map(mapId);
+      const fetchedRecipes = recipesRes.data.map(mapId);
+      setCreators(fetchedCreators);
+      setRecipes(fetchedRecipes);
+      localStorage.setItem('cookme_creators', JSON.stringify(fetchedCreators));
+      localStorage.setItem('cookme_recipes', JSON.stringify(fetchedRecipes));
     } catch (err) {
       console.error('Error fetching data', err);
     }
