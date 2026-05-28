@@ -416,6 +416,10 @@
   .cp-ig-feed {
     padding-top: 20px;
   }
+
+  .cp-ig-tab {
+    margin-left: 16px;
+  }
 }
 
 @media (max-width: 400px) {

@@ -120,7 +120,10 @@ const RecipeDetail = () => {
         <h2>👨‍🍳 Cooking Steps</h2>
         ${recipe.steps.map(step => `<div class="step"><span class="step-num">Step ${step.number}</span><p class="step-title">${step.title}</p></div>`).join('')}
         <div class="footer">Printed from zaikarecipes.app • ${new Date().toLocaleDateString()}</div>
-        <script>window.print(); window.close();</script>
+        <script>
+          setTimeout(() => { window.print(); }, 250);
+          window.onafterprint = () => { window.close(); };
+        </script>
       </body>
       </html>
     `);
