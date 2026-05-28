@@ -70,10 +70,33 @@ const RecipeDetail = () => {
 
   const handleShare = async () => {
     const url = window.location.href;
+    const ingredientsText = recipe.ingredients.map(i => `${i.amount} ${i.unit} ${i.name}`).join(', ');
+    const shareText = `Check out this recipe for ${recipe.title}!\n\nIngredients: ${ingredientsText}\n\n`;
+    
+    const shareData: ShareData = { 
+      title: recipe.title, 
+      text: shareText, 
+      url 
+    };
+
     if (navigator.share) {
       try {
-        await navigator.share({ title: recipe.title, text: recipe.title, url });
-      } catch { /* user cancelled */ }
+        // Attempt to attach the image as a file for native sharing
+        try {
+          const response = await fetch(recipe.image);
+          const blob = await response.blob();
+          const file = new File([blob], 'recipe.jpg', { type: blob.type || 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            shareData.files = [file];
+          }
+        } catch (imgError) {
+          console.log('Could not attach image to share:', imgError);
+        }
+        
+        await navigator.share(shareData);
+      } catch (err) {
+        console.log('Share failed or was cancelled:', err);
+      }
     } else {
       await navigator.clipboard.writeText(url);
       alert('Recipe link copied to clipboard!');
