@@ -34,6 +34,33 @@ const RecipeDetail = () => {
       setSaveCount(recipe.saves || 0);
       // Fetch comments
       getComments(id).then(setComments);
+
+      // Update meta tags for link previews (WhatsApp, Telegram, etc.)
+      const updateMetaTag = (property: string, content: string) => {
+        let meta = document.querySelector(`meta[property="${property}"]`) || document.querySelector(`meta[name="${property}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          if (property.startsWith('og:')) {
+            meta.setAttribute('property', property);
+          } else {
+            meta.setAttribute('name', property);
+          }
+          document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+      };
+
+      document.title = `${recipe.title} - Zaika Recipes`;
+      updateMetaTag('og:title', recipe.title);
+      updateMetaTag('og:description', `Check out this delicious recipe for ${recipe.title}!`);
+      updateMetaTag('og:image', recipe.image);
+      updateMetaTag('og:url', window.location.href);
+      updateMetaTag('twitter:card', 'summary_large_image');
+      
+      return () => {
+        // Cleanup title
+        document.title = 'Zaika Recipes — Recipe Creator Marketplace & Community';
+      };
     }
   }, [recipe, id, user]);
 
@@ -78,18 +105,6 @@ const RecipeDetail = () => {
 
     if (navigator.share) {
       try {
-        // Attempt to attach the image as a file for native sharing
-        try {
-          const response = await fetch(recipe.image);
-          const blob = await response.blob();
-          const file = new File([blob], 'recipe.jpg', { type: blob.type || 'image/jpeg' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            shareData.files = [file];
-          }
-        } catch (imgError) {
-          console.log('Could not attach image to share:', imgError);
-        }
-        
         await navigator.share(shareData);
       } catch (err) {
         console.log('Share failed or was cancelled:', err);
