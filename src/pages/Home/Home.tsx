@@ -283,10 +283,7 @@ const Home = () => {
                       <img src={recipe.creator.avatar} alt={recipe.creator.name} />
                       <span>{recipe.creator.name}</span>
                     </div>
-                    <div className="top-card__stats">
-                      <span><Heart size={14} /> {(recipe.likes / 1000).toFixed(1)}k</span>
-                      <span><Eye size={14} /> {(recipe.views / 1000).toFixed(0)}k</span>
-                    </div>
+
                   </div>
                   {i === 0 && <div className="top-card__crown"><Crown size={24} /></div>}
                   <div className="top-card__explore-btn">

@@ -17,6 +17,10 @@
   padding: 0 4px;
 }
 
+.cp-ig-header .cp-ig-container {
+  padding: 0 24px;
+}
+
 /* ── Row 1: Avatar + Stats ───────────────────────── */
 .cp-ig-profile {
   display: flex;

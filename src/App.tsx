@@ -24,6 +24,16 @@ import Collaborator from './pages/Collaborator/Collaborator';
 
 
 // Protected route for admin
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
   if (isLoading) return null;
@@ -85,6 +95,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       {!hideNavFooter && <Navbar />}
       <AnimatedRoutes />
       {!hideNavFooter && <MobileNav />}
