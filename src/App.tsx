@@ -68,8 +68,10 @@ function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
+          <Route path="/creator/:creatorName/:recipeTitle" element={<RecipeDetail />} />
           <Route path="/creators" element={<Creators />} />
-          <Route path="/creator/:id" element={<CreatorProfile />} />
+          <Route path="/creator/:creatorName" element={<CreatorProfile />} />
+          <Route path="/creator/id/:id" element={<CreatorProfile />} />{/* keeping id route as fallback under /id/ if needed */}
           <Route path="/contact" element={<Contact />} />
           {/* <Route path="/categories" element={<Categories />} /> */}
           <Route path="/trending" element={<Trending />} />

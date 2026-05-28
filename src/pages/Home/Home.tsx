@@ -32,6 +32,7 @@ const Home = () => {
   const sponsoredRecipes = recipes.filter(r => r.isSponsored).slice(0, 4);
   const topRecipes = [...recipes].sort((a, b) => b.likes - a.likes).slice(0, 4);
 
+  const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
   return (
     <div className="home">
       {/* ===== HERO ===== */}
@@ -270,7 +271,7 @@ const Home = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
               >
-                <Link to={`/recipe/${recipe.id}`} className="top-card__inner">
+                <Link to={`/creator/${slugify(recipe.creator.name || 'chef')}/${slugify(recipe.title)}`} className="top-card__inner">
                   <div className="top-card__rank">#{i + 1}</div>
                   <div className="top-card__image-wrap">
                     <img src={recipe.image} alt={recipe.title} className="top-card__image" />
@@ -316,7 +317,7 @@ const Home = () => {
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -8 }}
               >
-                <Link to={`/creator/${creator.id}`} className="creator-card__inner">
+                <Link to={`/creator/${slugify(creator.name)}`} className="creator-card__inner">
                   <div className="creator-card__avatar-wrap">
                     <img src={creator.avatar} alt={creator.name} className="creator-card__avatar" />
                     <div className="creator-card__ring" />

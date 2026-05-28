@@ -8,12 +8,24 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import './RecipeDetail.css';
 
 const RecipeDetail = () => {
-  const { id } = useParams();
+  const { id, creatorName, recipeTitle } = useParams();
   const navigate = useNavigate();
   const { user, getAllCreatorRecipes, isRecipeLiked, isRecipeSaved, toggleLikeRecipe, toggleSaveRecipe, getComments, addComment } = useAuth();
   const recipes = getAllCreatorRecipes();
   
-  const recipe = recipes.find(r => r.id === id);
+  const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
+
+  const recipe = recipes.find(r => {
+    if (id) return r.id === id;
+    if (creatorName && recipeTitle) {
+      const rCreator = typeof r.creator === 'string' ? r.creator : r.creator?.name;
+      const creatorMatch = rCreator && (slugify(rCreator) === creatorName || (typeof r.creator !== 'string' && r.creator?.id === creatorName));
+      const recipeMatch = slugify(r.title) === recipeTitle;
+      return creatorMatch && recipeMatch;
+    }
+    return false;
+  });
+
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -27,15 +39,15 @@ const RecipeDetail = () => {
   const commentInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (recipe && id) {
-      setLiked(isRecipeLiked(id));
-      setSaved(isRecipeSaved(id));
+    if (recipe) {
+      setLiked(isRecipeLiked(recipe.id));
+      setSaved(isRecipeSaved(recipe.id));
       setLikeCount(recipe.likes || 0);
       setSaveCount(recipe.saves || 0);
       // Fetch comments
-      getComments(id).then(setComments);
+      getComments(recipe.id).then(setComments);
     }
-  }, [recipe, id, user]);
+  }, [recipe, user]);
 
   if (!recipe) return <div className="recipe-detail-404 container"><h2>Recipe not found</h2><Link to="/recipes">← Back to recipes</Link></div>;
 

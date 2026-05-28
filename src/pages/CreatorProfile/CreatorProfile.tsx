@@ -41,7 +41,7 @@ const resolveLink = (value: string, platform: 'instagram' | 'youtube' | 'twitter
 
 
 const CreatorProfile = () => {
-  const { id } = useParams();
+  const { id, creatorName } = useParams();
   const { user, getCreators, getAllCreatorRecipes, isFollowingUser, toggleFollowUser } = useAuth();
   const creators = getCreators();
   const recipes = getAllCreatorRecipes();
@@ -50,7 +50,13 @@ const CreatorProfile = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
 
-  const creator = creators.find(c => c.id === id);
+  const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
+
+  const creator = creators.find(c => {
+    if (id) return c.id === id;
+    if (creatorName) return slugify(c.name) === creatorName || c.id === creatorName;
+    return false;
+  });
   if (!creator) return <div className="container" style={{ paddingTop: 200, textAlign: 'center' }}><h2>Creator not found</h2></div>;
 
   const creatorRecipes = recipes.filter(r => {
@@ -259,7 +265,7 @@ const CreatorProfile = () => {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
                 >
-                  <Link to={`/recipe/${recipe.id}`} className="cp-ig-grid-link">
+                  <Link to={`/creator/${slugify(creator.name)}/${slugify(recipe.title)}`} className="cp-ig-grid-link">
                     <img src={recipe.image} alt={recipe.title} className="cp-ig-grid-img" />
                     <div className="cp-ig-grid-overlay">
                       <div className="cp-ig-grid-stats">

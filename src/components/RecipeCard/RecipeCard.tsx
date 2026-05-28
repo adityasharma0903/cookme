@@ -11,6 +11,10 @@ interface Props {
 }
 
 const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
+  const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
+  const rCreator = typeof recipe.creator === 'string' ? 'chef' : (recipe.creator?.name || 'chef');
+  const linkTo = `/creator/${slugify(rCreator)}/${slugify(recipe.title)}`;
+
   return (
     <motion.div
       className={`recipe-card recipe-card--${variant}`}
@@ -20,7 +24,7 @@ const RecipeCard = ({ recipe, index = 0, variant = 'default' }: Props) => {
       transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -8 }}
     >
-      <Link to={`/recipe/${recipe.id}`} className="recipe-card__link">
+      <Link to={linkTo} className="recipe-card__link">
         <div className="recipe-card__image-wrap">
           <img src={recipe.image} alt={recipe.title} className="recipe-card__image" loading="lazy" />
           <div className="recipe-card__image-overlay" />

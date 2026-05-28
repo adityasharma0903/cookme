@@ -23,6 +23,7 @@ const UserDashboard: React.FC = () => {
   const handleEditProfile = () => { navigate('/profile/edit'); };
 
   const creators = (useAuth() as any).getCreators();
+  const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
   const FollowingList = () => {
     const followingIds = user?.following || [];
     const followingCreators = creators.filter((c: any) => followingIds.some((id: any) => id.toString() === c.id || id === c.id));
@@ -30,7 +31,7 @@ const UserDashboard: React.FC = () => {
     return (
       <div className="following-list">
         {followingCreators.map((c: any) => (
-          <a key={c.id} href={`/creator/${c.id}`} className="following-item">
+          <a key={c.id} href={`/creator/${slugify(c.name)}`} className="following-item">
             <img src={c.avatar} alt={c.name} style={{ width: 40, height: 40, borderRadius: 999, objectFit: 'cover', marginRight: 8 }} />
             <span>{c.name}</span>
           </a>

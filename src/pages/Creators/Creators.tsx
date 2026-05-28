@@ -43,6 +43,7 @@ const Creators = () => {
               toggleFollowUser(creator.id);
             };
 
+            const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
             return (
               <motion.div 
                 key={creator.id} 
@@ -52,7 +53,7 @@ const Creators = () => {
                 viewport={{ once: true }} 
                 transition={{ delay: i * 0.08 }}
               >
-                <Link to={`/creator/${creator.id}`} className="creator-card-small__link">
+                <Link to={`/creator/${slugify(creator.name)}`} className="creator-card-small__link">
                   <div className="creator-card-small__header">
                     <img src={creator.avatar} alt={creator.name} className="creator-card-small__avatar" />
                     {creator.isVerified && <BadgeCheck size={20} className="creator-card-small__verified" />}
