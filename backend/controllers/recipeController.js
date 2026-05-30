@@ -23,7 +23,7 @@ const normalizeSteps = (steps = []) => steps.map((step, index) => ({
 // @route   GET /api/recipes
 // @access  Public
 const getRecipes = async (req, res) => {
-  const recipes = await Recipe.find({}).populate('creator', 'name avatar isVerified specialty');
+  const recipes = await Recipe.find({}).populate('creator', 'name avatar isVerified specialty').sort({ createdAt: -1 });
   res.json(recipes);
 };
 

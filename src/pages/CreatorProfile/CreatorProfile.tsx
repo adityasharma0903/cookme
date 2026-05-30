@@ -59,10 +59,12 @@ const CreatorProfile = () => {
   });
   if (!creator) return <div className="container" style={{ paddingTop: 200, textAlign: 'center' }}><h2>Creator not found</h2></div>;
 
-  const creatorRecipes = recipes.filter(r => {
-    const cId = typeof r.creator === 'string' ? r.creator : r.creator?.id;
-    return cId === creator.id;
-  });
+  const creatorRecipes = recipes
+    .filter(r => {
+      const cId = typeof r.creator === 'string' ? r.creator : r.creator?.id;
+      return cId === creator.id;
+    })
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
   const following = user ? isFollowingUser(creator.id) : false;
   const isOwnProfile = user && user.id === creator.id;

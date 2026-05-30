@@ -234,12 +234,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await fetchData();
   };
 
-  const getMyRecipes = () => user ? recipes.filter(r => {
-    const creatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
-    return creatorId === user.id;
-  }) : [];
+  const getMyRecipes = () => user ? [...recipes]
+    .filter(r => {
+      const creatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+      return creatorId === user.id;
+    })
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()) : [];
 
-  const getAllCreatorRecipes = () => recipes;
+  const getAllCreatorRecipes = () => [...recipes].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
   const updateProfile = async (data: any) => {
     if (!user) return;
