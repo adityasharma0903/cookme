@@ -29,7 +29,6 @@ const Categories = () => {
               <Link to={`/recipes?category=${encodeURIComponent(cat.name)}`} className="cat-card__inner">
                 <div className="cat-card__image" style={{ backgroundImage: `url(${cat.image})` }}>
                   <div className="cat-card__overlay" style={{ background: `linear-gradient(135deg, ${cat.color}cc, ${cat.color}66)` }} />
-                  <span className="cat-card__icon">{cat.icon}</span>
                   <div className="cat-card__info">
                     <h3 className="cat-card__name">{cat.name}</h3>
                     <span className="cat-card__count">{catRecipes.length} recipes</span>

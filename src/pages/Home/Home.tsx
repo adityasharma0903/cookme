@@ -152,11 +152,7 @@ const Home = () => {
               </motion.div>
             </div>
 
-            <div className="hero__accent-foods">
-              <motion.span className="hero__food-emoji hero__food-emoji--1" animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}>🌿</motion.span>
-              <motion.span className="hero__food-emoji hero__food-emoji--2" animate={{ y: [0, 10, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}>🍅</motion.span>
-              <motion.span className="hero__food-emoji hero__food-emoji--3" animate={{ y: [0, -10, 0], rotate: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}>🥑</motion.span>
-            </div>
+
           </motion.div>
         </motion.div>
 
@@ -222,7 +218,6 @@ const Home = () => {
                 <Link to={`/recipes?category=${encodeURIComponent(cat.name)}`} className="category-pill__inner">
                   <div className="category-pill__image" style={{ backgroundImage: `url(${cat.image})` }}>
                     <div className="category-pill__overlay" style={{ background: `linear-gradient(135deg, ${cat.color}dd, ${cat.color}88)` }} />
-                    <span className="category-pill__icon">{cat.icon}</span>
                   </div>
                   <div className="category-pill__info">
                     <span className="category-pill__name">{cat.name}</span>
