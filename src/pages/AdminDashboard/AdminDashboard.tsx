@@ -16,6 +16,7 @@ type ContactMessage = {
   id: string;
   name: string;
   email: string;
+  mobile: string;
   subject: string;
   message: string;
   status: 'unread' | 'read';
@@ -92,6 +93,7 @@ const AdminDashboard = () => {
           id: message._id || message.id,
           name: message.name,
           email: message.email,
+          mobile: message.mobile || '',
           subject: message.subject || '',
           message: message.message,
           status: message.status || 'unread',
@@ -217,17 +219,18 @@ const AdminDashboard = () => {
               <div className="admin-table-wrap">
                 <table className="admin-table">
                   <thead>
-                    <tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Status</th><th>FormSubmit</th><th>Date</th></tr>
+                    <tr><th>Name</th><th>Email</th><th>Mobile</th><th>Subject</th><th>Message</th><th>Status</th><th>FormSubmit</th><th>Date</th></tr>
                   </thead>
                   <tbody>
                     {contactMessages.length === 0 ? (
                       <tr>
-                        <td colSpan={7} style={{ textAlign: 'center', padding: '24px 12px' }}>No contact messages yet.</td>
+                        <td colSpan={8} style={{ textAlign: 'center', padding: '24px 12px' }}>No contact messages yet.</td>
                       </tr>
                     ) : contactMessages.map(message => (
                       <tr key={message.id}>
                         <td>{message.name}</td>
                         <td>{message.email}</td>
+                        <td>{message.mobile || '-'}</td>
                         <td>{message.subject || '-'}</td>
                         <td style={{ maxWidth: 340 }}>{message.message}</td>
                         <td><span className={`admin-status admin-status--${message.status === 'read' ? 'active' : 'suspended'}`}>{message.status}</span></td>

@@ -2,13 +2,15 @@ const ContactMessage = require('../models/ContactMessage');
 
 const FORMSUBMIT_EMAIL = process.env.CONTACT_RECEIVER_EMAIL || 'supportzaikarecipes@gmail.com';
 
-const sendToFormSubmit = async ({ name, email, subject, message }) => {
+const sendToFormSubmit = async ({ name, email, mobile, subject, message }) => {
   const url = `https://formsubmit.co/ajax/${encodeURIComponent(FORMSUBMIT_EMAIL)}`;
 
   // FormSubmit is most compatible with form-encoded bodies; include _replyto for reply address
   const params = new URLSearchParams();
   params.append('name', name);
+  params.append('email', email);
   params.append('_replyto', email);
+  params.append('mobile', mobile);
   params.append('_subject', subject || 'New contact message from Zaika Recipes');
   params.append('message', message);
   params.append('_captcha', 'false');
@@ -44,15 +46,16 @@ const sendToFormSubmit = async ({ name, email, subject, message }) => {
 // @access  Public
 const createContactMessage = async (req, res) => {
   try {
-    const { name, email, subject, message, skipFormSubmit, formsubmitStatus: clientFormStatus, formsubmitResponse: clientFormResponse } = req.body;
+    const { name, email, mobile, subject, message, skipFormSubmit, formsubmitStatus: clientFormStatus, formsubmitResponse: clientFormResponse } = req.body;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ message: 'Name, email, and message are required.' });
+    if (!name || !email || !mobile || !message) {
+      return res.status(400).json({ message: 'Name, email, mobile number, and message are required.' });
     }
 
     const contactMessage = await ContactMessage.create({
       name: name.trim(),
       email: email.trim(),
+      mobile: mobile.trim(),
       subject: (subject || '').trim(),
       message: message.trim(),
       source: 'contact-page',
@@ -63,7 +66,13 @@ const createContactMessage = async (req, res) => {
     // If the frontend already sent to FormSubmit, skip server-side forwarding
     if (!skipFormSubmit) {
       try {
-        const result = await sendToFormSubmit({ name: contactMessage.name, email: contactMessage.email, subject: contactMessage.subject, message: contactMessage.message });
+        const result = await sendToFormSubmit({
+          name: contactMessage.name,
+          email: contactMessage.email,
+          mobile: contactMessage.mobile,
+          subject: contactMessage.subject,
+          message: contactMessage.message
+        });
         contactMessage.formsubmitStatus = result.ok ? 'sent' : 'failed';
         contactMessage.formsubmitResponse = result;
         await contactMessage.save();

@@ -16,6 +16,7 @@ const contactMethods = [
 const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -27,8 +28,8 @@ const Contact = () => {
     setError('');
     setSuccess('');
 
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      setError('Name, email, and message are required.');
+    if (!name.trim() || !email.trim() || !mobile.trim() || !message.trim()) {
+      setError('Name, email, mobile number, and message are required.');
       return;
     }
 
@@ -39,7 +40,9 @@ const Contact = () => {
       const formSubmitUrl = `https://formsubmit.co/ajax/${encodeURIComponent('supportzaikarecipes@gmail.com')}`;
       const params = new URLSearchParams();
       params.append('name', name.trim());
+      params.append('email', email.trim());
       params.append('_replyto', email.trim());
+      params.append('mobile', mobile.trim());
       params.append('_subject', subject.trim() || 'New contact message from Zaika Recipes');
       params.append('message', message.trim());
       params.append('_captcha', 'false');
@@ -65,6 +68,7 @@ const Contact = () => {
       const { data } = await API.post('/contact', {
         name,
         email,
+        mobile,
         subject,
         message,
         skipFormSubmit: true,
@@ -72,9 +76,13 @@ const Contact = () => {
         formsubmitResponse: mailResponse,
       });
 
-      setSuccess(mailSent ? 'Your message was sent and saved successfully.' : 'Your message was saved. We will reach out soon.');
+      setSuccess(mailSent 
+        ? 'Your message was sent and saved successfully.' 
+        : 'Your message was saved.'
+      );
       setName('');
       setEmail('');
+      setMobile('');
       setSubject('');
       setMessage('');
     } catch (submitError: any) {
@@ -144,19 +152,23 @@ const Contact = () => {
 
             <form className="contact-form__fields" onSubmit={handleSubmit}>
               <label>
-                Your Name
+                Your Name *
                 <input type="text" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)} />
               </label>
               <label>
-                Email Address
+                Email Address *
                 <input type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)} />
+              </label>
+              <label>
+                Mobile Number *
+                <input type="tel" placeholder="Enter your mobile number" value={mobile} onChange={e => setMobile(e.target.value)} />
               </label>
               <label>
                 Subject
                 <input type="text" placeholder="What is this about?" value={subject} onChange={e => setSubject(e.target.value)} />
               </label>
               <label className="contact-form__message">
-                Your Message
+                Your Message *
                 <textarea rows={6} placeholder="Write your message..." value={message} onChange={e => setMessage(e.target.value)} />
               </label>
 
