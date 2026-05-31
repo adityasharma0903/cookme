@@ -340,13 +340,13 @@ function StepPersonal({ form, set, errors }: any) {
       </div>
       <div className="collab-fields">
         <FieldWrap label="Full Name *" error={errors.fullName}>
-          <Input icon={<User size={16} />} type="text" placeholder="Aditya Sharma" value={form.fullName} onChange={(e: any) => set('fullName', e.target.value)} />
+          <Input icon={<User size={16} />} type="text" placeholder="Your Name" value={form.fullName} onChange={(e: any) => set('fullName', e.target.value)} />
         </FieldWrap>
         <FieldWrap label="Email Address *" error={errors.email}>
           <Input icon={<Mail size={16} />} type="email" placeholder="you@example.com" value={form.email} onChange={(e: any) => set('email', e.target.value)} />
         </FieldWrap>
         <FieldWrap label="Phone Number *" error={errors.phone}>
-          <Input icon={<Phone size={16} />} type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={(e: any) => set('phone', e.target.value)} />
+          <Input icon={<Phone size={16} />} type="tel" placeholder="+91 98765 43XXX" value={form.phone} onChange={(e: any) => set('phone', e.target.value)} />
         </FieldWrap>
         <div className="collab-fields--row">
           <FieldWrap label="City *" error={errors.city}>

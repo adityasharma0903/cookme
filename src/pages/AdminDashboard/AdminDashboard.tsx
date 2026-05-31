@@ -268,9 +268,9 @@ const AdminDashboard = () => {
                   </div>
                   <div className="admin-creator-card__stats">
                     <div><strong>{allRecipes.filter(r => {
-                          const cid = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
-                          return cid === creator.id;
-                        }).length}</strong><span>Recipes</span></div>
+                      const cid = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
+                      return cid === creator.id;
+                    }).length}</strong><span>Recipes</span></div>
                     <div><strong>{(creator.followers || 0).toLocaleString()}</strong><span>Followers</span></div>
                     <div><strong>{((creator.totalLikes || 0) / 1000).toFixed(1)}k</strong><span>Likes</span></div>
                   </div>
@@ -298,7 +298,7 @@ const AdminDashboard = () => {
                 <tbody>
                   {allRecipes.map(r => {
                     const rCreatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?.id;
-                  const creator = creators.find(c => c.id === rCreatorId);
+                    const creator = creators.find(c => c.id === rCreatorId);
                     return (
                       <tr key={r.id}>
                         <td><div className="admin-table__recipe"><img src={r.image} alt={r.title} /><span>{r.title}</span></div></td>
@@ -443,16 +443,16 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
         </div>
         {error && <div className="auth-error"><AlertCircle size={14} /> {error}</div>}
         <div className="modal__body">
-          <div className="modal__field"><label><User size={14} /> Full Name</label><input value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g., Chef Aditya" /></div>
-          <div className="modal__field"><label>Username</label><input value={form.username} onChange={e => setForm({...form, username: e.target.value})} placeholder="unique username (no spaces)" /></div>
-          <div className="modal__field"><label><Mail size={14} /> Email</label><input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="creator@zaikarecipes.app" /></div>
-          <div className="modal__field"><label><Lock size={14} /> Password</label><input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="Min 6 characters" /></div>
+          <div className="modal__field"><label><User size={14} /> Full Name</label><input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="e.g., Chef Aditya" /></div>
+          <div className="modal__field"><label>Username</label><input value={form.username} onChange={e => setForm({ ...form, username: e.target.value })} placeholder="unique username (no spaces)" /></div>
+          <div className="modal__field"><label><Mail size={14} /> Email</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="creator@zaikarecipes.app" /></div>
+          <div className="modal__field"><label><Lock size={14} /> Password</label><input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} placeholder="Min 6 characters" /></div>
           <div className="modal__field"><label><Sparkles size={14} /> Specialty</label>
-            <select value={form.specialty} onChange={e => setForm({...form, specialty: e.target.value})}>
+            <select value={form.specialty} onChange={e => setForm({ ...form, specialty: e.target.value })}>
               {['Indian Cuisine', 'Italian & Mediterranean', 'Japanese Cuisine', 'Mexican & Latin', 'Vegan & Plant-Based', 'Desserts & Baking', 'Seafood', 'BBQ & Grill', 'Chinese Cuisine', 'Thai Cuisine', 'French Cuisine', 'Other'].map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
-          <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} placeholder="Tell about this creator..." rows={3} /></div>
+          <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} placeholder="Tell about this creator..." rows={3} /></div>
           <div className="modal__field">
             <label>Profile Photo</label>
             <div style={{ display: 'grid', gap: 10 }}>
@@ -464,7 +464,7 @@ const CreateCreatorModal = ({ onClose, onCreate }: { onClose: () => void; onCrea
                   alt="Avatar preview"
                   style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(217,92,120,0.2)' }}
                 />
-                <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
+                <input value={form.avatar} onChange={e => setForm({ ...form, avatar: e.target.value })} placeholder="Or paste an image link" />
               </div>
             </div>
           </div>
@@ -569,11 +569,11 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
           <button onClick={onClose}><X size={20} /></button>
         </div>
         <div className="modal__body">
-          <div className="modal__field"><label>Name</label><input value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
-          <div className="modal__field"><label>Email</label><input value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
-          <div className="modal__field"><label>Password</label><input value={form.password} onChange={e => setForm({...form, password: e.target.value})} /></div>
+          <div className="modal__field"><label>Name</label><input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></div>
+          <div className="modal__field"><label>Email</label><input value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></div>
+          <div className="modal__field"><label>Password</label><input value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} /></div>
           <div className="modal__field"><label>Specialty</label>
-            <select value={form.specialty} onChange={e => setForm({...form, specialty: e.target.value})}>
+            <select value={form.specialty} onChange={e => setForm({ ...form, specialty: e.target.value })}>
               {['Indian Cuisine', 'Italian & Mediterranean', 'Japanese Cuisine', 'Mexican & Latin', 'Vegan & Plant-Based', 'Desserts & Baking', 'Seafood', 'BBQ & Grill', 'Chinese Cuisine', 'Thai Cuisine', 'French Cuisine', 'Other'].map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
@@ -588,7 +588,7 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
                   alt="Avatar preview"
                   style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(217,92,120,0.2)' }}
                 />
-                <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} placeholder="Or paste an image link" />
+                <input value={form.avatar} onChange={e => setForm({ ...form, avatar: e.target.value })} placeholder="Or paste an image link" />
               </div>
             </div>
           </div>
@@ -615,8 +615,8 @@ const EditCreatorModal = ({ creator, onClose, onUpdate }: { creator: CreatorAcco
               ) : null)}
             </div>
           </div>
-          <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} /></div>
-          <div className="modal__field modal__field--check"><label><input type="checkbox" checked={form.isVerified} onChange={e => setForm({...form, isVerified: e.target.checked})} /> Verified Creator</label></div>
+          <div className="modal__field"><label>Bio</label><textarea value={form.bio} onChange={e => setForm({ ...form, bio: e.target.value })} rows={3} /></div>
+          <div className="modal__field modal__field--check"><label><input type="checkbox" checked={form.isVerified} onChange={e => setForm({ ...form, isVerified: e.target.checked })} /> Verified Creator</label></div>
         </div>
         <div className="modal__footer">
           <button className="modal__btn modal__btn--cancel" onClick={onClose}>Cancel</button>

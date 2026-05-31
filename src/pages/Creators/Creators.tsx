@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BadgeCheck, BookOpen, Heart, TrendingUp, Crown } from 'lucide-react';
+import { BadgeCheck, BookOpen, Heart, TrendingUp, Crown, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import AuthModal from '../../components/AuthModal/AuthModal';
 import './Creators.css';
@@ -13,6 +13,19 @@ const Creators = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const sorted = [...creators].sort((a, b) => b.followers - a.followers);
+
+  // Compute recipe count dynamically from live recipes array
+  const getCreatorRecipeCount = (creatorId: string): number => {
+    return recipes.filter(r => {
+      const rCreatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?._id || (r.creator as any)?.id;
+      return rCreatorId?.toString() === creatorId?.toString();
+    }).length;
+  };
+
+  const formatFollowers = (n: number): string => {
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+    return String(n);
+  };
 
   return (
     <div className="creators-page">
@@ -65,8 +78,9 @@ const Creators = () => {
                   </div>
 
                   <div className="creator-card-small__stats">
+                    <span><Users size={14} /> {formatFollowers(creator.followers || 0)}</span>
                     <span><Heart size={14} /> {(creator.likes || 0).toLocaleString()}</span>
-                    <span><BookOpen size={14} /> {(creator.recipes || 0)}</span>
+                    <span><BookOpen size={14} /> {getCreatorRecipeCount(creator.id)}</span>
                   </div>
 
                   {!isOwnProfile && (

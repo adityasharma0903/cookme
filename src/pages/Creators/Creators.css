@@ -135,20 +135,22 @@
 .creator-card-small__stats {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 16px;
   margin-bottom: 24px;
   padding: 16px 0;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  flex-wrap: wrap;
 }
 
 .creator-card-small__stats span {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 5px;
+  font-size: 13px;
   color: var(--gray-warm);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .creator-card-small__recipes {

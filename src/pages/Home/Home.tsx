@@ -32,6 +32,14 @@ const Home = () => {
   const sponsoredRecipes = recipes.filter(r => r.isSponsored).slice(0, 4);
   const topRecipes = [...recipes].sort((a, b) => b.likes - a.likes).slice(0, 4);
 
+  // Compute per-creator recipe count dynamically from the live recipes array
+  const getCreatorRecipeCount = (creatorId: string): number => {
+    return recipes.filter(r => {
+      const rCreatorId = typeof r.creator === 'string' ? r.creator : (r.creator as any)?._id || (r.creator as any)?.id;
+      return rCreatorId?.toString() === creatorId?.toString();
+    }).length;
+  };
+
   const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '');
   return (
     <div className="home">
@@ -326,7 +334,7 @@ const Home = () => {
                       <span>Followers</span>
                     </div>
                     <div className="creator-card__stat">
-                      <strong>{(creator.recipes || 0)}</strong>
+                      <strong>{getCreatorRecipeCount(creator.id)}</strong>
                       <span>Recipes</span>
                     </div>
                   </div>
