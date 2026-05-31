@@ -329,10 +329,6 @@ const Home = () => {
                       <strong>{(creator.recipes || 0)}</strong>
                       <span>Recipes</span>
                     </div>
-                    <div className="creator-card__stat">
-                      <strong>{(creator.likes || 0).toLocaleString()}</strong>
-                      <span>Likes</span>
-                    </div>
                   </div>
                   <motion.button className="creator-card__follow" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     Follow +

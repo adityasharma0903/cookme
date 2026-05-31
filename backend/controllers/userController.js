@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Recipe = require('../models/Recipe');
 
 const normalizeSocialLinks = (socialLinks = {}) => ({
   instagram: '',
@@ -14,10 +15,31 @@ const normalizeSocialLinks = (socialLinks = {}) => ({
 // @access  Public
 const getCreators = async (req, res) => {
   const creators = await User.find({ role: 'creator' }).select('-password');
-  res.json(creators.map(creator => ({
-    ...creator.toObject(),
-    socialLinks: normalizeSocialLinks(creator.socialLinks),
-  })));
+
+  // Aggregate recipe count AND total likes per creator from the Recipe collection
+  const recipeStats = await Recipe.aggregate([
+    {
+      $group: {
+        _id: '$creator',
+        recipeCount: { $sum: 1 },
+        totalLikes: { $sum: '$likes' },
+      }
+    }
+  ]);
+  const statsMap = {};
+  recipeStats.forEach(({ _id, recipeCount, totalLikes }) => {
+    statsMap[_id.toString()] = { recipeCount, totalLikes };
+  });
+
+  res.json(creators.map(creator => {
+    const stats = statsMap[creator._id.toString()] || { recipeCount: 0, totalLikes: 0 };
+    return {
+      ...creator.toObject(),
+      socialLinks: normalizeSocialLinks(creator.socialLinks),
+      recipes: stats.recipeCount,
+      likes: stats.totalLikes,
+    };
+  }));
 };
 
 // @desc    Get creator by ID
