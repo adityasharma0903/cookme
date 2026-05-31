@@ -143,7 +143,6 @@ const RecipeDetail = () => {
         <p class="subtitle">By ${creatorName}</p>
         <div class="meta">
           <span>⏱ ${recipe.prepTime + recipe.cookTime} min</span>
-          <span>👥 ${recipe.servings} servings</span>
           <span>🔥 ${recipe.calories} cal</span>
           <span>📊 ${recipe.difficulty}</span>
         </div>
@@ -251,7 +250,6 @@ const RecipeDetail = () => {
           {/* Ingredients */}
           <motion.div className={`rd-ingredients ${activeMobileTab !== 'ingredients' ? 'mobile-hidden' : ''}`} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <h2 className="rd-section-title">🧂 Ingredients</h2>
-            <p className="rd-section-sub">For {recipe.servings} servings</p>
             <ul className="rd-ingredients-list">
               {recipe.ingredients.map((ing, i) => (
                 <motion.li key={i} className="rd-ingredient" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
